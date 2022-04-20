@@ -1,8 +1,8 @@
-import { contextBridge } from "electron";
+import { contextBridge } from 'electron';
 
-contextBridge.exposeInMainWorld("myAPI", {
+contextBridge.exposeInMainWorld('myAPI', {
   counter: (count: number) => {
-    console.log("ろう");
+    console.log('ろう');
     return count + 1;
   },
 });
