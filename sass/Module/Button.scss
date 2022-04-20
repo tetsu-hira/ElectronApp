@@ -1,0 +1,81 @@
+.upButton {
+  position: fixed;
+  font-size: 2rem;
+  // display: none;
+  bottom: 3em;
+  right: 2rem;
+  background-color: $PrimaryColor;
+  width: 40px;
+  height: 40px;
+  z-index: 999;
+  text-align: center;
+  color: #fff;
+  border: 1px solid $PrimaryColor;
+  box-shadow: 2px 1px 5px 0 rgba(0, 0, 0, 20%);
+  border-radius: 50%;
+  &:after {
+    content: '';
+    width: 11px;
+    height: 11px;
+    border: 2px solid;
+    border-color: $WhiteColor $WhiteColor transparent transparent;
+    transform: rotate(-45deg);
+    position: relative;
+    display: inline-block;
+    top: -9px;
+  }
+  &:hover {
+    background-color: #ffffff;
+    color: $PrimaryColor;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  &:hover::after {
+    // background-color: $PrimaryColor;
+    border-color: $PrimaryColor $PrimaryColor transparent transparent;
+    color: $PrimaryColor;
+    transition: all 0.3s ease;
+  }
+}
+.downButton {
+  position: fixed;
+  font-size: 2rem;
+  // display: none;
+  bottom: 1.5em;
+  right: 2rem;
+  background-color: $PrimaryColor;
+  width: 40px;
+  height: 40px;
+  z-index: 999;
+  text-align: center;
+  color: #fff;
+  border: 1px solid $PrimaryColor;
+  box-shadow: 2px 1px 5px 0 rgba(0, 0, 0, 20%);
+  border-radius: 50%;
+  @include mq() {
+    display: block;
+  }
+  &:after {
+    content: '';
+    width: 11px;
+    height: 11px;
+    border: 2px solid;
+    border-color: $WhiteColor $WhiteColor transparent transparent;
+    transform: rotate(135deg);
+    position: relative;
+    display: inline-block;
+    top: -16px;
+  }
+  &:hover {
+    background-color: #ffffff;
+    color: $PrimaryColor;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  &:hover::after {
+    // background-color: $PrimaryColor;
+    border-color: $PrimaryColor $PrimaryColor transparent transparent;
+    color: $PrimaryColor;
+    transition: all 0.3s ease;
+  }
+}

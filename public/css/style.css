@@ -1,0 +1,1581 @@
+@charset "UTF-8";
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 100%;
+  font-family: "Helvetica Neue", "Helvetica", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Arial", "Yu Gothic", "Meiryo", sans-serif;
+  line-height: 1.7;
+  letter-spacing: 1px;
+}
+
+body {
+  margin: 0;
+  background-color: #ededed;
+  color: #6c7686;
+  height: 100vh;
+}
+
+ul,
+li {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  display: block;
+  text-decoration: none;
+  color: #6c7686;
+  font-size: 14px;
+}
+a:hover {
+  transition: all 0.3s ease;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+}
+
+h1 {
+  font-weight: 600;
+  font-size: 24px;
+}
+
+input {
+  font-family: inherit;
+  font-size: 100%;
+}
+
+.Main {
+  display: block;
+}
+
+button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  padding: 0;
+  appearance: none;
+}
+
+.upButton {
+  position: fixed;
+  font-size: 2rem;
+  bottom: 3em;
+  right: 2rem;
+  background-color: #4d80b0;
+  width: 40px;
+  height: 40px;
+  z-index: 999;
+  text-align: center;
+  color: #fff;
+  border: 1px solid #4d80b0;
+  box-shadow: 2px 1px 5px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 50%;
+}
+.upButton:after {
+  content: "";
+  width: 11px;
+  height: 11px;
+  border: 2px solid;
+  border-color: #fff #fff transparent transparent;
+  transform: rotate(-45deg);
+  position: relative;
+  display: inline-block;
+  top: -9px;
+}
+.upButton:hover {
+  background-color: #ffffff;
+  color: #4d80b0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.upButton:hover::after {
+  border-color: #4d80b0 #4d80b0 transparent transparent;
+  color: #4d80b0;
+  transition: all 0.3s ease;
+}
+
+.downButton {
+  position: fixed;
+  font-size: 2rem;
+  bottom: 1.5em;
+  right: 2rem;
+  background-color: #4d80b0;
+  width: 40px;
+  height: 40px;
+  z-index: 999;
+  text-align: center;
+  color: #fff;
+  border: 1px solid #4d80b0;
+  box-shadow: 2px 1px 5px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 50%;
+}
+@media screen and (max-width: 600px) {
+  .downButton {
+    display: block;
+  }
+}
+.downButton:after {
+  content: "";
+  width: 11px;
+  height: 11px;
+  border: 2px solid;
+  border-color: #fff #fff transparent transparent;
+  transform: rotate(135deg);
+  position: relative;
+  display: inline-block;
+  top: -16px;
+}
+.downButton:hover {
+  background-color: #ffffff;
+  color: #4d80b0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.downButton:hover::after {
+  border-color: #4d80b0 #4d80b0 transparent transparent;
+  color: #4d80b0;
+  transition: all 0.3s ease;
+}
+
+.Footer {
+  bottom: 0;
+  width: 100%;
+  margin: auto;
+  height: 48px;
+  background: #f5f5f5;
+  line-height: 3.8;
+  font-size: 0.8rem;
+}
+@media screen and (max-width: 600px) {
+  .Footer {
+    display: none;
+  }
+}
+
+.Header {
+  height: 48px;
+  background-color: #4d80b0;
+  width: 100%;
+  display: flex;
+  z-index: 100;
+  min-width: 960px;
+  position: relative;
+}
+@media screen and (max-width: 600px) {
+  .Header {
+    width: auto;
+    min-width: 320px;
+    height: auto;
+  }
+}
+.Header .HeaderContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.Header .HeaderContainer .WebTitle {
+  color: #fff;
+  font-size: 2em;
+  font-family: "Mochiy Pop P One", sans-serif;
+  text-shadow: 1px 1px 0px rgba(86, 89, 108, 0.94);
+  margin-left: 1em;
+  line-height: 1.5;
+}
+@media screen and (max-width: 600px) {
+  .Header .HeaderContainer .WebTitle {
+    margin: auto;
+    font-size: 1.2em;
+    text-align: center;
+    height: 40px;
+    line-height: 40px;
+    left: 0;
+    width: 100%;
+    position: initial;
+  }
+}
+.Header .HeaderContainer .HeaderLink {
+  display: flex;
+}
+.Header .HeaderContainer .HeaderLink__item {
+  width: 5rem;
+  margin: auto;
+  text-align: center;
+  height: 100%;
+  line-height: 3rem;
+  transition: 0.5s;
+}
+.Header .HeaderContainer .HeaderLink__item:hover {
+  background-color: #ededed;
+}
+.Header .HeaderContainer .HeaderLink__text {
+  color: #fff;
+  font-weight: bold;
+}
+.Header .HeaderContainer .HeaderLink__text:hover {
+  color: #4d80b0;
+}
+.Header .HeaderContainer .HeaderRight {
+  display: flex;
+}
+.Header .HeaderContainer .HeaderRight .search {
+  width: 2.5em;
+  margin: auto;
+  text-align: center;
+}
+.Header .HeaderContainer .HeaderRight .search .icon {
+  width: 1.5em;
+  display: block;
+  margin: auto;
+}
+.Header .HeaderContainer .HeaderRight .account {
+  width: 3.5em;
+  margin: auto;
+  text-align: center;
+}
+.Header .HeaderContainer .HeaderRight .account .circle {
+  display: inline-block;
+  width: 2.5em;
+  height: 2.5em;
+  border-radius: 50%;
+  background: #fff;
+  text-align: center;
+  line-height: 2.5em;
+}
+
+.Cross {
+  height: 88px;
+  width: 2%;
+  display: none;
+  background-color: #fff;
+  box-shadow: 2px 2px 2px rgb(185, 184, 184);
+}
+@media screen and (max-width: 600px) {
+  .Cross {
+    display: block;
+    width: 4%;
+    background-color: #fff;
+    box-shadow: 2px 2px 2px rgb(185, 184, 184);
+    height: 106px;
+    padding-bottom: 10px;
+    padding-top: 8px;
+  }
+}
+.Cross__item {
+  width: auto;
+  height: 44px;
+  line-height: 44px;
+  position: relative;
+}
+@media screen and (max-width: 600px) {
+  .Cross__item {
+    width: auto;
+    position: relative;
+  }
+}
+.Cross__item .Cross__text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  font-size: 1em;
+  color: #6c7686;
+}
+
+.Form {
+  display: flex;
+  margin-bottom: 1.5em;
+}
+.FormContent {
+  display: flex;
+  margin: auto;
+}
+.FormContent__name {
+  height: 40px;
+  border: 1px solid #4d80b0;
+  display: flex;
+  align-items: center;
+  margin: auto 16px;
+  width: 200px;
+  box-shadow: 1px 1px 3px -1px rgba(0, 0, 0, 0.3);
+  color: #6c7686;
+}
+@media screen and (max-width: 600px) {
+  .FormContent__name {
+    width: 160px;
+  }
+}
+.FormContent__button {
+  background: #4d80b0;
+  font-size: 16px;
+  width: 100px;
+  height: 40px;
+  line-height: 20px;
+  text-align: center;
+  color: #fff;
+  border: 1px solid #4d80b0;
+  margin: 8px 0;
+  box-shadow: 2px 1px 5px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+}
+@media screen and (max-width: 600px) {
+  .FormContent__button {
+    width: 67px;
+    font-size: 16px;
+    padding-left: 2px;
+    line-height: 17px;
+  }
+}
+.FormContent__button:hover {
+  background-color: #ffffff;
+  color: #4d80b0;
+  transition: all 0.3s ease;
+}
+
+.Head {
+  height: 40px;
+  margin: 4px 0;
+  border-top: none;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background-color: #fff;
+  box-shadow: 2px 2px 2px #b9b8b8;
+}
+@media screen and (max-width: 600px) {
+  .Head {
+    width: 327px;
+    margin: 4px auto;
+  }
+}
+.Head .name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #6c7686;
+  margin: auto 4px auto 0;
+  text-align: center;
+  height: 36px;
+  width: 154px;
+  background-color: #fff;
+  line-height: 35px;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.15);
+}
+@media screen and (max-width: 600px) {
+  .Head .name {
+    width: 131px;
+  }
+}
+.Head .gross {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  width: 36px;
+  height: 32px;
+  line-height: 30px;
+  background-color: #4d80b0;
+  border-top: 1px solid #4d80b0;
+  border-left: 1px solid #4d80b0;
+  border-bottom: 2px solid rgba(78, 112, 145, 0.5019607843);
+  border-right: 1px solid #4d80b0;
+  border-radius: 4px;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.15);
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.15);
+  margin: 6px;
+  text-align: center;
+}
+.Head .gross:active {
+  -webkit-transform: translateY(1px);
+  transform: translateY(1px);
+  box-shadow: none;
+  border-top: 1px solid #cdd6df;
+  border-bottom: none;
+}
+.Head .point {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  width: 36px;
+  height: 32px;
+  line-height: 30px;
+  background-color: #4d80b0;
+  border-top: 1px solid #4d80b0;
+  border-left: 1px solid #4d80b0;
+  border-bottom: 2px solid rgba(78, 112, 145, 0.5019607843);
+  border-right: 1px solid #4d80b0;
+  border-radius: 4px;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.15);
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.15);
+  margin: 6px;
+  text-align: center;
+}
+.Head .point:active {
+  -webkit-transform: translateY(1px);
+  transform: translateY(1px);
+  box-shadow: none;
+  border-top: 1px solid #cdd6df;
+  border-bottom: none;
+}
+.Head .score {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  width: 36px;
+  height: 32px;
+  line-height: 30px;
+  background-color: #4d80b0;
+  border-top: 1px solid #4d80b0;
+  border-left: 1px solid #4d80b0;
+  border-bottom: 2px solid rgba(78, 112, 145, 0.5019607843);
+  border-right: 1px solid #4d80b0;
+  border-radius: 4px;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.15);
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.15);
+  margin: 6px;
+  text-align: center;
+}
+.Head .score:active {
+  -webkit-transform: translateY(1px);
+  transform: translateY(1px);
+  box-shadow: none;
+  border-top: 1px solid #cdd6df;
+  border-bottom: none;
+}
+.Head .space {
+  width: 46px;
+  height: 36px;
+  background-color: #fff;
+  margin-left: 4px;
+  content: "";
+}
+
+.Insert {
+  display: flex;
+  justify-content: space-around;
+  padding-top: 1em;
+}
+.InsertContent__text {
+  font-weight: 600;
+}
+.InsertContent__entry {
+  color: #6c7686;
+  width: 48px;
+  height: 36px;
+  border: 1px solid #4d80b0;
+  align-items: center;
+  text-align: center;
+  margin: auto 1rem;
+  box-shadow: 1px 1px 2px -1px rgba(0, 0, 0, 0.3);
+}
+
+.Item {
+  display: flex;
+  background-color: #ffffff;
+  margin: auto 2rem 0.25rem;
+}
+.Item .ItemHead {
+  font-size: 1rem;
+  color: #fff;
+  margin: 1rem 0.4rem 0.4rem;
+  text-align: center;
+  height: 36px;
+  background-color: #4d80b0;
+  line-height: 35px;
+  border: 1px solid #4d80b0;
+}
+.Item .ItemHead.id {
+  width: 60px;
+}
+.Item .ItemHead.users {
+  min-width: 300px;
+}
+.Item .ItemHead.users:hover {
+  background-color: #ffffff;
+  color: #4d80b0;
+  transition: all 0.5s ease;
+}
+.Item .ItemHead.point {
+  width: 100px;
+}
+.Item .ItemHead.point:hover {
+  background-color: #ffffff;
+  color: #4d80b0;
+  transition: all 0.5s ease;
+}
+.Item .ItemHead.score {
+  width: 100px;
+}
+.Item .ItemHead.score:hover {
+  background-color: #ffffff;
+  color: #4d80b0;
+  transition: all 0.5s ease;
+}
+.Item .ItemHead.times {
+  width: 100px;
+}
+.Item .ItemHead.times:hover {
+  background-color: #ffffff;
+  color: #4d80b0;
+  transition: all 0.5s ease;
+}
+.Item .ItemHead.ratio {
+  width: 100px;
+}
+.Item .ItemHead.ratio:hover {
+  background-color: #ffffff;
+  color: #4d80b0;
+  transition: all 0.5s ease;
+}
+.Item .ItemHead.count {
+  width: 100px;
+}
+.Item .ItemHead.count:hover {
+  background-color: #ffffff;
+  color: #4d80b0;
+  transition: all 0.5s ease;
+}
+
+.List .ListTop {
+  display: flex;
+  background-color: #ffffff;
+  margin: auto 2rem 3px;
+  border-top: 1px solid #6c7686;
+}
+.List .ListTop:last-child {
+  border-bottom: 1px solid #6c7686;
+}
+.List .ListTop .ListBody {
+  font-size: 1rem;
+  color: #6c7686;
+  margin: auto 0.4rem;
+  text-align: center;
+  height: 36px;
+  line-height: 35px;
+}
+.List .ListTop .ListBody.id {
+  width: 60px;
+}
+.List .ListTop .ListBody.users {
+  min-width: 300px;
+  text-align-last: left;
+  padding-left: 2rem;
+  position: relative;
+}
+.List .ListTop .ListBody.users .ListButton {
+  position: absolute;
+  top: 5px;
+  right: 3px;
+  background-color: #4d80b0;
+  color: #fff;
+  padding: 6px 3px 3px;
+  border-radius: 35px;
+}
+.List .ListTop .ListBody.point {
+  width: 100px;
+}
+.List .ListTop .ListBody.score {
+  width: 100px;
+}
+.List .ListTop .ListBody.times {
+  width: 100px;
+}
+.List .ListTop .ListBody.ratio {
+  width: 100px;
+}
+.List .ListTop .ListBody.count {
+  width: 100px;
+}
+
+.Process {
+  min-height: 48em;
+}
+@media screen and (max-width: 600px) {
+  .Process {
+    min-height: auto;
+  }
+}
+.ProcessContainer {
+  margin: auto 0;
+}
+.ProcessContainer .ProcessMain {
+  display: flex;
+  min-width: 1280px;
+  height: 100vh;
+}
+@media screen and (max-width: 600px) {
+  .ProcessContainer .ProcessMain {
+    display: block;
+    min-width: 320px;
+  }
+}
+.ProcessContainer .ProcessMain .ProcessList {
+  max-width: 400px;
+  padding: 16px 24px 0px 24px;
+  max-height: 100vh;
+  overflow: auto;
+  flex: 1;
+}
+@media screen and (max-width: 600px) {
+  .ProcessContainer .ProcessMain .ProcessList {
+    max-width: 600px;
+    width: 100%;
+    overflow: unset;
+    max-height: none;
+  }
+}
+.ProcessContainer .ProcessMain .ProcessList p {
+  font-size: 0.8rem;
+}
+.ProcessContainer .ProcessMain .ProcessList h1 {
+  text-align: left;
+  padding-left: 1.2em;
+}
+@media screen and (max-width: 600px) {
+  .ProcessContainer .ProcessMain .ProcessList h1 {
+    font-size: 1.2em;
+  }
+}
+.ProcessContainer .ProcessMain .ProcessList h1.teamList {
+  text-align: center;
+}
+.ProcessContainer .ProcessMain .ProcessList__Border {
+  margin-bottom: 1em;
+}
+.ProcessContainer .ProcessMain .ProcessList__Border .SelectBox {
+  display: flex;
+}
+.ProcessContainer .ProcessMain .ProcessList__Border select {
+  width: 150px;
+  cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  padding: 0 9px;
+  margin: 4px;
+  border: 1px solid #4d80b0;
+  text-align-last: right;
+  outline: none;
+  color: #6c7686;
+  height: 32px;
+  box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, 0.25);
+}
+.ProcessContainer .ProcessMain .ProcessList__Border select:hover {
+  box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, 0.25);
+  transform: translateY(-0.1875em);
+}
+.ProcessContainer .ProcessMain .ProcessList__Border select option {
+  text-align: center;
+}
+.ProcessContainer .ProcessMain .ProcessList .upButton {
+  position: fixed;
+  font-size: 2rem;
+  display: none;
+  top: 1.5em;
+  left: 1rem;
+  background-color: #dcc9b7;
+  width: 40px;
+  height: 40px;
+  z-index: 999;
+  text-align: center;
+  color: #fff;
+  border: 1px solid #dcc9b7;
+  box-shadow: 2px 1px 5px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 50%;
+}
+@media screen and (max-width: 600px) {
+  .ProcessContainer .ProcessMain .ProcessList .upButton {
+    display: block;
+  }
+}
+.ProcessContainer .ProcessMain .ProcessList .upButton:after {
+  content: "";
+  width: 11px;
+  height: 11px;
+  border: 2px solid;
+  border-color: #fff #fff transparent transparent;
+  transform: rotate(-45deg);
+  position: relative;
+  display: inline-block;
+  top: -9px;
+}
+.ProcessContainer .ProcessMain .ProcessList .upButton:hover {
+  background-color: #ffffff;
+  color: #dcc9b7;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.ProcessContainer .ProcessMain .ProcessList .upButton:hover::after {
+  border-color: #dcc9b7 #dcc9b7 transparent transparent;
+  color: #dcc9b7;
+  transition: all 0.3s ease;
+}
+.ProcessContainer .ProcessMain .ProcessList .downButton {
+  position: fixed;
+  font-size: 2rem;
+  display: none;
+  top: 3em;
+  left: 1rem;
+  background-color: #dcc9b7;
+  width: 40px;
+  height: 40px;
+  z-index: 999;
+  text-align: center;
+  color: #fff;
+  border: 1px solid #dcc9b7;
+  box-shadow: 2px 1px 5px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 50%;
+}
+@media screen and (max-width: 600px) {
+  .ProcessContainer .ProcessMain .ProcessList .downButton {
+    display: block;
+  }
+}
+.ProcessContainer .ProcessMain .ProcessList .downButton:after {
+  content: "";
+  width: 11px;
+  height: 11px;
+  border: 2px solid;
+  border-color: #fff #fff transparent transparent;
+  transform: rotate(135deg);
+  position: relative;
+  display: inline-block;
+  top: -16px;
+}
+.ProcessContainer .ProcessMain .ProcessList .downButton:hover {
+  background-color: #ffffff;
+  color: #dcc9b7;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.ProcessContainer .ProcessMain .ProcessList .downButton:hover::after {
+  border-color: #dcc9b7 #dcc9b7 transparent transparent;
+  color: #dcc9b7;
+  transition: all 0.3s ease;
+}
+.ProcessContainer .ProcessMain .Result {
+  width: 816px;
+  max-height: 100vh;
+  overflow: auto;
+  flex: 2;
+  margin-left: 24px;
+  padding-top: 16px;
+}
+@media screen and (max-width: 600px) {
+  .ProcessContainer .ProcessMain .Result {
+    max-width: 600px;
+    width: 100%;
+    min-width: 320px;
+    margin-left: 0;
+    overflow: unset;
+    padding-bottom: 3em;
+  }
+}
+.ProcessContainer .ProcessMain .Result .title {
+  margin: 0;
+  padding-left: 60px;
+  width: 800px;
+}
+@media screen and (max-width: 600px) {
+  .ProcessContainer .ProcessMain .Result .title {
+    font-size: 1.2em;
+    width: auto;
+    padding-left: 0;
+  }
+}
+.ProcessContainer .ProcessMain .Result__Border {
+  padding-top: 5px;
+  display: flex;
+  flex-wrap: wrap;
+  width: 800px;
+}
+@media screen and (max-width: 600px) {
+  .ProcessContainer .ProcessMain .Result__Border {
+    width: 90%;
+    margin: auto;
+  }
+}
+.ProcessContainer .ProcessMain .Result__Border .Flex {
+  display: flex;
+  width: 50%;
+  margin-bottom: 1em;
+  padding-bottom: 10px;
+  padding-top: 8px;
+  background-color: #fff;
+  box-shadow: 2px 2px 2px rgb(185, 184, 184);
+}
+@media screen and (max-width: 600px) {
+  .ProcessContainer .ProcessMain .Result__Border .Flex {
+    justify-content: space-around;
+    width: 48%;
+  }
+}
+@media screen and (max-width: 600px) {
+  .ProcessContainer .ProcessMain .Result__Border .Flex.left {
+    justify-content: flex-end;
+  }
+}
+.ProcessContainer .ProcessMain .Result__Border .Flex.right {
+  padding-right: 16px;
+}
+@media screen and (max-width: 600px) {
+  .ProcessContainer .ProcessMain .Result__Border .Flex.right {
+    justify-content: flex-start;
+    padding-right: 0;
+  }
+}
+.ProcessContainer .ProcessMain .Result__Border .FlexCount {
+  height: 88px;
+  width: auto;
+}
+.ProcessContainer .ProcessMain .Result__Border .FlexCount__Button {
+  display: flex;
+  height: 44px;
+  width: 80px;
+}
+@media screen and (max-width: 600px) {
+  .ProcessContainer .ProcessMain .Result__Border .FlexCount__Button {
+    display: block;
+    width: 48px;
+    position: relative;
+  }
+}
+.ProcessContainer .ProcessMain .Result__Border .FlexCount__Button .SubCount {
+  background: #efefef;
+  font-size: 1rem;
+  width: 32px;
+  height: 32px;
+  line-height: 16px;
+  text-align: center;
+  color: #6c7686;
+  border-bottom: 2px solid rgba(90, 104, 116, 0.5019607843);
+  border-radius: 50%;
+  margin: auto;
+  padding: 0;
+  text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.65);
+  filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.1));
+  font-family: "游ゴシック", YuGothic, "游ゴシック体";
+}
+@media screen and (max-width: 600px) {
+  .ProcessContainer .ProcessMain .Result__Border .FlexCount__Button .SubCount {
+    display: flex;
+    width: 36px;
+    height: 18px;
+    border-bottom: 1px solid rgba(90, 104, 116, 0.5019607843);
+    border-radius: 50%/0 0 100% 100%;
+    margin: auto 3px;
+    position: absolute;
+    left: 3px;
+    top: 24px;
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
+    justify-content: center;
+    align-items: center;
+  }
+}
+@media screen and (max-width: 600px) {
+  .ProcessContainer .ProcessMain .Result__Border .FlexCount__Button .SubCount.bottom {
+    top: 28px;
+  }
+}
+.ProcessContainer .ProcessMain .Result__Border .FlexCount__Button .SubCount:hover {
+  cursor: pointer;
+}
+.ProcessContainer .ProcessMain .Result__Border .FlexCount__Button .SubCount:active {
+  -webkit-transform: translateY(1px);
+  transform: translateY(1px);
+  box-shadow: none;
+  border-bottom: 2px solid #efefef;
+}
+.ProcessContainer .ProcessMain .Result__Border .FlexCount__Button .SubCount .CountText {
+  color: #6c7686;
+}
+.ProcessContainer .ProcessMain .Result__Border .FlexCount__Button .AddCount {
+  background: #efefef;
+  font-size: 1rem;
+  width: 32px;
+  height: 32px;
+  line-height: 16px;
+  text-align: center;
+  color: #6c7686;
+  border-bottom: 2px solid rgba(90, 104, 116, 0.5019607843);
+  border-radius: 50%;
+  margin: auto;
+  padding: 0;
+  text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.65);
+  filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.1));
+  font-family: "游ゴシック", YuGothic, "游ゴシック体";
+}
+@media screen and (max-width: 600px) {
+  .ProcessContainer .ProcessMain .Result__Border .FlexCount__Button .AddCount {
+    display: flex;
+    width: 36px;
+    height: 18px;
+    border-bottom: 1px solid rgba(90, 104, 116, 0.5019607843);
+    border-radius: 50%/100% 100% 0 0;
+    margin: auto 3px;
+    position: absolute;
+    left: 3px;
+    top: 3px;
+    box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.1);
+    justify-content: center;
+    align-items: center;
+  }
+}
+@media screen and (max-width: 600px) {
+  .ProcessContainer .ProcessMain .Result__Border .FlexCount__Button .AddCount.bottom {
+    top: 7px;
+  }
+}
+.ProcessContainer .ProcessMain .Result__Border .FlexCount__Button .AddCount:hover {
+  cursor: pointer;
+}
+.ProcessContainer .ProcessMain .Result__Border .FlexCount__Button .AddCount:active {
+  -webkit-transform: translateY(1px);
+  transform: translateY(1px);
+  box-shadow: none;
+  border-bottom: 2px solid #efefef;
+}
+.ProcessContainer .ProcessMain .Result__Border .FlexCount__Point {
+  display: flex;
+  height: 44px;
+  width: 60px;
+}
+@media screen and (max-width: 600px) {
+  .ProcessContainer .ProcessMain .Result__Border .FlexCount__Point {
+    display: block;
+    width: 32px;
+    position: relative;
+  }
+}
+.ProcessContainer .ProcessMain .Result__Border .FlexCount__Point .ResultTime {
+  width: 60px;
+  margin: auto;
+  font-size: 1.5rem;
+}
+@media screen and (max-width: 600px) {
+  .ProcessContainer .ProcessMain .Result__Border .FlexCount__Point .ResultTime {
+    width: 30px;
+    font-size: 1.2em;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+  }
+}
+.ProcessContainer .ProcessMain .Result__Border .FlexName {
+  color: #6c7686;
+  width: 200px;
+}
+@media screen and (max-width: 600px) {
+  .ProcessContainer .ProcessMain .Result__Border .FlexName {
+    width: 88px;
+    font-weight: 600;
+    font-size: 1em;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.15);
+  }
+}
+.ProcessContainer .ProcessMain .Result__Border .FlexName .ResultIndex {
+  border: 1px solid #4d80b0;
+  width: 60px;
+  margin: 5px auto;
+  height: 30px;
+  box-shadow: 0px 1px 3px 0 rgba(0, 0, 0, 0.25);
+}
+.ProcessContainer .ProcessMain .Result__Border .FlexName .ResultName {
+  font-size: 1rem;
+  border: 1px solid #4d80b0;
+  width: 178px;
+  height: 50px;
+  line-height: 1;
+  margin: 4px 10px;
+  box-shadow: 0px 1px 3px 0 rgba(0, 0, 0, 0.25);
+  position: relative;
+}
+@media screen and (max-width: 600px) {
+  .ProcessContainer .ProcessMain .Result__Border .FlexName .ResultName {
+    font-size: 0.8em;
+    width: auto;
+    line-height: 1.2;
+    margin: 4px auto;
+  }
+}
+.ProcessContainer .ProcessMain .Result__Border .FlexName .ResultName__text {
+  overflow-wrap: break-word;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+}
+.ProcessContainer .ProcessMain .Result__Border .FlexName .DeleteButton {
+  background: #4d80b0;
+  font-size: 0.8rem;
+  min-width: 64px;
+  height: 22px;
+  text-align: center;
+  color: #fff;
+  border-radius: 4px;
+  margin: auto;
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.15);
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  border-top: 1px solid #4d80b0;
+  border-left: 1px solid #4d80b0;
+  border-bottom: 2px solid rgba(118, 148, 177, 0.5019607843);
+  border-right: 1px solid #4d80b0;
+}
+.ProcessContainer .ProcessMain .Result__Border .FlexName .DeleteButton:hover {
+  cursor: pointer;
+}
+.ProcessContainer .ProcessMain .Result__Border .FlexName .DeleteButton:active {
+  -webkit-transform: translateY(1px);
+  transform: translateY(1px);
+  box-shadow: none;
+  border-top: none;
+  border-bottom: none;
+}
+.ProcessContainer .ProcessMain .Result__Border .FlexCross {
+  height: 88px;
+}
+@media screen and (max-width: 600px) {
+  .ProcessContainer .ProcessMain .Result__Border .FlexCross {
+    display: none;
+    width: 2%;
+    border-bottom: 1px solid #6c7686;
+    height: 105px;
+  }
+}
+.ProcessContainer .ProcessMain .Result__Border .FlexCross__item {
+  width: 60px;
+  height: 44px;
+  line-height: 38px;
+  font-size: 2em;
+  position: relative;
+  color: #6c7686;
+}
+@media screen and (max-width: 600px) {
+  .ProcessContainer .ProcessMain .Result__Border .FlexCross__item {
+    width: auto;
+    position: relative;
+  }
+}
+.ProcessContainer .ProcessMain .Result__Border .FlexCross__item .CrossText {
+  position: absolute;
+  top: 51%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.8em;
+}
+.ProcessContainer .ProcessMain .Result__Border .FlexNumber {
+  height: 88px;
+  width: 60px;
+  position: relative;
+}
+@media screen and (max-width: 600px) {
+  .ProcessContainer .ProcessMain .Result__Border .FlexNumber {
+    margin: auto 2px auto 6px;
+    display: none;
+  }
+}
+.ProcessContainer .ProcessMain .Result__Border .FlexNumber__item {
+  width: 60px;
+  line-height: 1.5;
+  font-size: 0.8em;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+}
+@media screen and (max-width: 600px) {
+  .ProcessContainer .ProcessMain .Result__Border .FlexNumber__item {
+    width: 20px;
+    line-height: 1.2;
+    font-size: 0.8em;
+  }
+}
+
+.Product {
+  width: 1040px;
+}
+.ProductTitle {
+  font-size: 1.5rem;
+  margin: auto;
+  width: auto;
+  text-align: left;
+  padding-top: 1rem;
+  padding-left: 1rem;
+  color: #6c7686;
+  font-weight: bold;
+}
+.ProductContainer {
+  margin: 1rem auto;
+  background-color: #fff;
+  box-shadow: 0 1px 3px gray;
+  width: 90%;
+  padding-bottom: 2rem;
+}
+.ProductContainer .ProductTop {
+  display: flex;
+}
+.ProductContainer .ProductTop .ProductButton {
+  display: flex;
+  margin: auto 2em 1em;
+  padding-top: 2.7em;
+}
+.ProductContainer .ProductTop .ProductButton__name {
+  height: 36px;
+  border: 1px solid #4d80b0;
+  display: block;
+  width: 300px;
+  color: #6c7686;
+  margin-right: 16px;
+  padding-left: 8px;
+  line-height: 18px;
+  box-shadow: 1px 1px 2px -1px rgba(0, 0, 0, 0.3);
+}
+@media screen and (max-width: 600px) {
+  .ProductContainer .ProductTop .ProductButton__name {
+    width: 160px;
+  }
+}
+.ProductContainer .ProductTop .ProductButton__button {
+  background: #4d80b0;
+  font-size: 16px;
+  width: 100px;
+  height: 36px;
+  line-height: 18px;
+  text-align: center;
+  color: #fff;
+  border: 1px solid #4d80b0;
+}
+.ProductContainer .ProductTop .ProductButton__button:hover {
+  background-color: #ffffff;
+  color: #4d80b0;
+  transition: all 0.5s ease;
+}
+
+.Result {
+  width: 937px;
+  max-height: 232px;
+  overflow: auto;
+  flex: 2;
+  margin-left: 51px;
+  padding-top: 16px;
+  background-color: #fff;
+  box-shadow: 0 1px 3px gray;
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 3em;
+}
+.Result .title {
+  margin: 0;
+  padding-left: 60px;
+  width: 800px;
+}
+@media screen and (max-width: 600px) {
+  .Result .title {
+    font-size: 1.2em;
+    width: auto;
+    padding-left: 0;
+  }
+}
+.Result .DeleteButton {
+  background: #4d80b0;
+  font-size: 0.8rem;
+  width: 36px;
+  height: 22px;
+  text-align: center;
+  color: #fff;
+  border-radius: 4px;
+  margin: auto;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+}
+.Result .DeleteButton:hover {
+  cursor: pointer;
+}
+.Result .DeleteButton:active {
+  -webkit-transform: translateY(1px);
+  transform: translateY(1px);
+  box-shadow: none;
+  border-top: none;
+  border-bottom: none;
+}
+.Result .Result__Border {
+  padding-top: 5px;
+  display: flex;
+  flex-wrap: wrap;
+}
+.Result .Result__Border .Result__Flex .Flex {
+  display: flex;
+  margin-bottom: 1em;
+  padding-bottom: 10px;
+  padding-top: 8px;
+}
+@media screen and (max-width: 600px) {
+  .Result .Result__Border .Result__Flex .Flex {
+    justify-content: space-around;
+    width: 48%;
+  }
+}
+@media screen and (max-width: 600px) {
+  .Result .Result__Border .Result__Flex .Flex.left {
+    justify-content: flex-end;
+  }
+}
+.Result .Result__Border .Result__Flex .Flex.right {
+  padding-right: 16px;
+}
+@media screen and (max-width: 600px) {
+  .Result .Result__Border .Result__Flex .Flex.right {
+    justify-content: flex-start;
+    padding-right: 0;
+  }
+}
+.Result .Result__Border .Result__Flex .FlexCount {
+  height: 72px;
+  width: auto;
+}
+.Result .Result__Border .Result__Flex .FlexCount__Button {
+  display: flex;
+  height: 36px;
+  width: 80px;
+}
+.Result .Result__Border .Result__Flex .FlexCount__Button .SubCount {
+  background-color: #4d80b0;
+  width: 28px;
+  height: 28px;
+  line-height: 24px;
+  border-radius: 50%;
+  margin: auto;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.Result .Result__Border .Result__Flex .FlexCount__Button .SubCount.bottom {
+  color: #fff;
+  font-size: 1.5rem;
+  font-family: "游ゴシック", YuGothic, "游ゴシック体";
+  font-weight: bold;
+}
+.Result .Result__Border .Result__Flex .FlexCount__Button .SubCount:hover {
+  cursor: pointer;
+}
+.Result .Result__Border .Result__Flex .FlexCount__Button .SubCount:active {
+  -webkit-transform: translateY(1px);
+  transform: translateY(1px);
+  box-shadow: none;
+  border-bottom: 2px solid #efefef;
+}
+.Result .Result__Border .Result__Flex .FlexCount__Button .SubCount.top {
+  color: #fff;
+  font-size: 1.5rem;
+  font-family: "游ゴシック", YuGothic, "游ゴシック体";
+  font-weight: bold;
+}
+.Result .Result__Border .Result__Flex .FlexCount__Button .AddCount {
+  background-color: #4d80b0;
+  width: 28px;
+  height: 28px;
+  line-height: 25px;
+  border-radius: 50%;
+  margin: auto;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.Result .Result__Border .Result__Flex .FlexCount__Button .AddCount.bottom {
+  color: #fff;
+  font-size: 1.5rem;
+}
+.Result .Result__Border .Result__Flex .FlexCount__Button .AddCount:hover {
+  cursor: pointer;
+}
+.Result .Result__Border .Result__Flex .FlexCount__Button .AddCount:active {
+  -webkit-transform: translateY(1px);
+  transform: translateY(1px);
+  box-shadow: none;
+  border-bottom: 2px solid #efefef;
+}
+.Result .Result__Border .Result__Flex .FlexCount__Button .AddCount.top {
+  color: #fff;
+  font-size: 1.5rem;
+}
+.Result .Result__Border .Result__Flex .FlexCount__Point {
+  display: flex;
+  height: 36px;
+  width: 60px;
+}
+@media screen and (max-width: 600px) {
+  .Result .Result__Border .Result__Flex .FlexCount__Point {
+    display: block;
+    width: 32px;
+    position: relative;
+  }
+}
+.Result .Result__Border .Result__Flex .FlexCount__Point .ResultTime {
+  width: 60px;
+  margin: auto;
+  font-size: 21px;
+  background-color: #efefef;
+}
+@media screen and (max-width: 600px) {
+  .Result .Result__Border .Result__Flex .FlexCount__Point .ResultTime {
+    width: 30px;
+    font-size: 1.2em;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+  }
+}
+.Result .Result__Border .Result__Flex .FlexName {
+  color: #6c7686;
+  width: 180px;
+  margin: auto 1rem;
+}
+@media screen and (max-width: 600px) {
+  .Result .Result__Border .Result__Flex .FlexName {
+    width: 88px;
+    font-weight: 600;
+    font-size: 1em;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.15);
+  }
+}
+.Result .Result__Border .Result__Flex .FlexName .ResultIndex {
+  border: 1px solid #4d80b0;
+  width: 60px;
+  margin: 5px auto;
+  height: 30px;
+  box-shadow: 0px 1px 3px 0 rgba(0, 0, 0, 0.25);
+}
+.Result .Result__Border .Result__Flex .FlexName .ResultName {
+  font-size: 1rem;
+  width: 178px;
+  height: 50px;
+  line-height: 1;
+  margin: 11px auto;
+  color: #6c7686;
+  position: relative;
+  border-top: 1px solid #6c7686;
+  border-bottom: 1px solid #6c7686;
+}
+@media screen and (max-width: 600px) {
+  .Result .Result__Border .Result__Flex .FlexName .ResultName {
+    font-size: 0.8em;
+    width: auto;
+    line-height: 1.2;
+    margin: 4px auto;
+  }
+}
+.Result .Result__Border .Result__Flex .FlexName .ResultName__text {
+  overflow-wrap: break-word;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+}
+.Result .Result__Border .Result__Flex .FlexCross {
+  height: 72px;
+}
+@media screen and (max-width: 600px) {
+  .Result .Result__Border .Result__Flex .FlexCross {
+    display: none;
+    width: 2%;
+    border-bottom: 1px solid #6c7686;
+    height: 105px;
+  }
+}
+.Result .Result__Border .Result__Flex .FlexCross__item {
+  width: 60px;
+  height: 36px;
+  line-height: 30px;
+  font-size: 2em;
+  position: relative;
+  color: #6c7686;
+}
+@media screen and (max-width: 600px) {
+  .Result .Result__Border .Result__Flex .FlexCross__item {
+    width: auto;
+    position: relative;
+  }
+}
+.Result .Result__Border .Result__Flex .FlexCross__item .CrossText {
+  position: absolute;
+  top: 51%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.8em;
+}
+.Result .Result__Border .Result__Flex .Flex .FlexNumber {
+  height: 72px;
+  width: 60px;
+  position: relative;
+}
+@media screen and (max-width: 600px) {
+  .Result .Result__Border .Result__Flex .Flex .FlexNumber {
+    margin: auto 2px auto 6px;
+    display: none;
+  }
+}
+.Result .Result__Border .Result__Flex .Flex .FlexNumber__item {
+  width: 60px;
+  line-height: 1.5;
+  font-size: 0.8em;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+}
+@media screen and (max-width: 600px) {
+  .Result .Result__Border .Result__Flex .Flex .FlexNumber__item {
+    width: 20px;
+    line-height: 1.2;
+    font-size: 0.8em;
+  }
+}
+
+.Top {
+  min-height: 589px;
+  height: 100%;
+}
+.TopContainer {
+  display: flex;
+  height: 100vh;
+}
+.TopContainer__Left {
+  padding-top: 58px;
+  background-color: #fff;
+  box-shadow: 0 0 4px 0 gray;
+  width: 17rem;
+  overflow-y: auto;
+  max-height: 100vh;
+}
+@media screen and (max-width: 600px) {
+  .TopContainer__Left {
+    overflow: unset;
+  }
+}
+.TopContainer__Left .TopHead__title {
+  font-size: 1rem;
+  margin: auto;
+  width: auto;
+  font-weight: bold;
+  color: #6c7686;
+  text-align: center;
+  border-bottom: 1px solid #d5d4d4;
+  padding-bottom: 0.5rem;
+}
+.TopContainer__Left .TopHead .TopButton {
+  margin: auto;
+  margin-bottom: 1em;
+}
+.TopContainer__Left .TopHead .TopButton form {
+  width: auto;
+  padding-top: 8px;
+}
+.TopContainer__Left .TopHead .TopButton__name {
+  height: 40px;
+  border: 1px solid #4d80b0;
+  display: flex;
+  align-items: center;
+  margin: auto;
+  width: 15rem;
+  color: #6c7686;
+  font-size: 14px;
+  padding-left: 8px;
+}
+@media screen and (max-width: 600px) {
+  .TopContainer__Left .TopHead .TopButton__name {
+    width: 160px;
+  }
+}
+.TopContainer__Left .TopHead .TopButton__button {
+  background: #4d80b0;
+  font-size: 14px;
+  width: 15rem;
+  height: 30px;
+  line-height: 10px;
+  text-align: center;
+  color: #fff;
+  border: 1px solid #4d80b0;
+  margin: 10px auto;
+  display: block;
+}
+@media screen and (max-width: 600px) {
+  .TopContainer__Left .TopHead .TopButton__button {
+    width: 67px;
+    font-size: 16px;
+    padding-left: 2px;
+    line-height: 17px;
+  }
+}
+.TopContainer__Left .TopHead .TopButton__button:hover {
+  background-color: #ffffff;
+  color: #4d80b0;
+  transition: all 0.5s ease;
+}
+.TopContainer__Left .TopList__item {
+  margin: auto;
+  background-color: #fff;
+  color: #6c7686;
+  text-align: center;
+  width: auto;
+  border-bottom: 1px solid #d5d4d4;
+  height: 3rem;
+}
+.TopContainer__Left .TopList__itemName {
+  display: flex;
+  width: 100%;
+  position: relative;
+  height: 100%;
+  align-items: center;
+  text-align: left;
+  overflow-wrap: break-word;
+  padding-right: 24px;
+}
+.TopContainer__Left .TopList__itemName:hover {
+  background-color: #ededed;
+  color: #fff;
+  cursor: pointer;
+}
+.TopContainer__Left .TopList__itemName p {
+  color: #6c7686;
+  height: auto;
+  margin-left: 1.5rem;
+  font-size: 0.8rem;
+}
+.TopContainer__Left .TopList__item form {
+  display: block;
+  top: 100%;
+}
+.TopContainer__Right {
+  flex: 1;
+  overflow-y: auto;
+  padding-top: 48px;
+  height: auto;
+}
+
+.App {
+  margin-top: -48px;
+}

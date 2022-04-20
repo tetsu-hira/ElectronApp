@@ -1,0 +1,66 @@
+.Item {
+  display: flex;
+  background-color: #ffffff;
+  margin: auto 2rem 0.25rem;
+  .ItemHead {
+    font-size: 1rem;
+    color: $WhiteColor;
+    margin: 1rem 0.4rem 0.4rem;
+    text-align: center;
+    height: 36px;
+    background-color: $PrimaryColor;
+    line-height: 35px;
+    border: 1px solid $PrimaryColor;
+    &.id {
+      width: 60px;
+    }
+    &.users {
+      min-width: 300px;
+      &:hover {
+        background-color: #ffffff;
+        color: $PrimaryColor;
+        transition: all 0.5s ease;
+      }
+    }
+    &.point {
+      width: 100px;
+      &:hover {
+        background-color: #ffffff;
+        color: $PrimaryColor;
+        transition: all 0.5s ease;
+      }
+    }
+    &.score {
+      width: 100px;
+      &:hover {
+        background-color: #ffffff;
+        color: $PrimaryColor;
+        transition: all 0.5s ease;
+      }
+    }
+    &.times {
+      width: 100px;
+      &:hover {
+        background-color: #ffffff;
+        color: $PrimaryColor;
+        transition: all 0.5s ease;
+      }
+    }
+    &.ratio {
+      width: 100px;
+      &:hover {
+        background-color: #ffffff;
+        color: $PrimaryColor;
+        transition: all 0.5s ease;
+      }
+    }
+    &.count {
+      width: 100px;
+      &:hover {
+        background-color: #ffffff;
+        color: $PrimaryColor;
+        transition: all 0.5s ease;
+      }
+    }
+  }
+}

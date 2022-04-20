@@ -4,4 +4,9 @@ export declare global {
       counter: (count: number) => number;
     };
   }
+  interface RootState {
+    entryItem: {
+      /* ... */
+    };
+  }
 }

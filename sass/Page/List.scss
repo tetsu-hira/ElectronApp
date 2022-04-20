@@ -1,0 +1,54 @@
+.List {
+  .ListTop {
+    display: flex;
+    background-color: #ffffff;
+    margin: auto 2rem 3px;
+    border-top: 1px solid $FontColor;
+    &:last-child {
+      border-bottom: 1px solid $FontColor;
+    }
+    .ListBody {
+      font-size: 1rem;
+      color: $FontColor;
+      margin: auto 0.4rem;
+      text-align: center;
+      height: 36px;
+      // background-color: $Main4;
+      line-height: 35px;
+      // box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.15);
+      &.id {
+        width: 60px;
+      }
+      &.users {
+        min-width: 300px;
+        text-align-last: left;
+        padding-left: 2rem;
+        position: relative;
+        .ListButton {
+          position: absolute;
+          top: 5px;
+          right: 3px;
+          background-color: $PrimaryColor;
+          color: $WhiteColor;
+          padding: 6px 3px 3px;
+          border-radius: 35px;
+        }
+      }
+      &.point {
+        width: 100px;
+      }
+      &.score {
+        width: 100px;
+      }
+      &.times {
+        width: 100px;
+      }
+      &.ratio {
+        width: 100px;
+      }
+      &.count {
+        width: 100px;
+      }
+    }
+  }
+}

@@ -1,0 +1,57 @@
+.Product {
+  width: 1040px;
+  &Title {
+    font-size: 1.5rem;
+    margin: auto;
+    width: auto;
+    text-align: left;
+    padding-top: 1rem;
+    padding-left: 1rem;
+    color: $FontColor;
+    font-weight: bold;
+  }
+  &Container {
+    margin: 1rem auto;
+    background-color: $WhiteColor;
+    box-shadow: 0 1px 3px gray;
+    width: 90%;
+    padding-bottom: 2rem;
+    .ProductTop {
+      display: flex;
+      .ProductButton {
+        display: flex;
+        margin: auto 2em 1em;
+        padding-top: 2.7em;
+        &__name {
+          height: 36px;
+          border: 1px solid $PrimaryColor;
+          display: block;
+          width: 300px;
+          color: $FontColor;
+          margin-right: 16px;
+          padding-left: 8px;
+          line-height: 18px;
+          box-shadow: 1px 1px 2px -1px rgba(0, 0, 0, 0.3);
+          @include mq() {
+            width: 160px;
+          }
+        }
+        &__button {
+          background: $PrimaryColor;
+          font-size: 16px;
+          width: 100px;
+          height: 36px;
+          line-height: 18px;
+          text-align: center;
+          color: #fff;
+          border: 1px solid $PrimaryColor;
+          &:hover {
+            background-color: #ffffff;
+            color: $PrimaryColor;
+            transition: all 0.5s ease;
+          }
+        }
+      }
+    }
+  }
+}

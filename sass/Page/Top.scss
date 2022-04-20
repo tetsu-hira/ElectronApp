@@ -1,0 +1,139 @@
+.Top {
+  min-height: 589px;
+  height: 100%;
+  &Container {
+    display: flex;
+    height: 100vh;
+    &__Left {
+      padding-top: 58px;
+      background-color: $WhiteColor;
+      box-shadow: 0 0 4px 0 gray;
+      width: 17rem;
+      overflow-y: auto;
+      max-height: 100vh;
+      // min-height: 100vh;
+      @include mq() {
+        overflow: unset;
+      }
+      .TopHead {
+        // display: flex;
+        // width: 15rem;
+        &__title {
+          font-size: 1rem;
+          margin: auto;
+          width: auto;
+          font-weight: bold;
+          color: $FontColor;
+          text-align: center;
+          border-bottom: 1px solid #d5d4d4;
+          padding-bottom: 0.5rem;
+        }
+        .TopButton {
+          // display: flex;
+          margin: auto;
+          margin-bottom: 1em;
+          form {
+            // display: flex;
+            width: auto;
+            padding-top: 8px;
+          }
+          &__name {
+            height: 40px;
+            border: 1px solid $PrimaryColor;
+            // border-top: none;
+            display: flex;
+            align-items: center;
+            margin: auto;
+            width: 15rem;
+            // box-shadow: 2px 1px 5px 0 rgba(0, 0, 0, 20%);
+            color: $FontColor;
+            font-size: 14px;
+            padding-left: 8px;
+            @include mq() {
+              width: 160px;
+            }
+          }
+          &__button {
+            background: $PrimaryColor;
+            // border-radius: 30px;
+            font-size: 14px;
+            width: 15rem;
+            height: 30px;
+            line-height: 10px;
+            text-align: center;
+            color: #fff;
+            border: 1px solid $PrimaryColor;
+            margin: 10px auto;
+            display: block;
+            // box-shadow: 2px 1px 5px 0 rgba(0, 0, 0, 20%);
+            // border-radius: 3px;
+            @include mq() {
+              width: 67px;
+              font-size: 16px;
+              padding-left: 2px;
+              line-height: 17px;
+            }
+            &:hover {
+              background-color: #ffffff;
+              color: $PrimaryColor;
+              transition: all 0.5s ease;
+            }
+          }
+        }
+      }
+      .TopList {
+        // display: flex;
+        // flex-wrap: wrap;
+        // transition-duration: 1s;
+        &__item {
+          margin: auto;
+          background-color: $WhiteColor;
+          color: $FontColor;
+          text-align: center;
+          width: auto;
+          border-bottom: 1px solid #d5d4d4;
+          height: 3rem;
+          &Name {
+            display: flex;
+            width: 100%;
+            position: relative;
+            height: 100%;
+            align-items: center;
+            // transition: 0.5s;
+            text-align: left;
+            overflow-wrap: break-word;
+            padding-right: 24px;
+            &:hover {
+              background-color: $BackColor;
+              color: $WhiteColor;
+              cursor: pointer;
+            }
+            p {
+              color: $FontColor;
+              // font-weight: bold;
+              height: auto;
+              margin-left: 1.5rem;
+              font-size: 0.8rem;
+            }
+          }
+          form {
+            display: block;
+            top: 100%;
+            // position: absolute;
+          }
+        }
+      }
+    }
+    &__Right {
+      flex: 1;
+      overflow-y: auto;
+      padding-top: 48px;
+      // margin-bottom: 48px;
+      height: auto;
+    }
+  }
+}
+.App {
+  margin-top: -48px;
+  // margin-bottom: -48px;
+}

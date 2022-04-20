@@ -1,0 +1,37 @@
+.Cross {
+  height: 88px;
+  width: 2%;
+  // border-bottom: 1px solid $FontColor;
+  display: none;
+  background-color: $WhiteColor;
+  box-shadow: 2px 2px 2px rgb(185, 184, 184);
+  @include mq() {
+    display: block;
+    width: 4%;
+    // border-bottom: 1px solid $FontColor;
+    background-color: $WhiteColor;
+    box-shadow: 2px 2px 2px rgb(185, 184, 184);
+    height: 106px;
+    padding-bottom: 10px;
+    padding-top: 8px;
+  }
+  &__item {
+    width: auto;
+    height: 44px;
+    line-height: 44px;
+    position: relative;
+    @include mq() {
+      width: auto;
+      position: relative;
+    }
+    .Cross__text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-right: -50%;
+      transform: translate(-50%, -50%);
+      font-size: 1em;
+      color: $FontColor;
+    }
+  }
+}

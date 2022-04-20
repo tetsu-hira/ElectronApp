@@ -1,0 +1,288 @@
+.Result {
+  width: 937px;
+  max-height: 232px;
+  overflow: auto;
+  flex: 2;
+  margin-left: 51px;
+  padding-top: 16px;
+  background-color: $WhiteColor;
+  box-shadow: 0 1px 3px gray;
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 3em;
+  .title {
+    margin: 0;
+    padding-left: 60px;
+    width: 800px;
+    @include mq() {
+      font-size: 1.2em;
+      width: auto;
+      padding-left: 0;
+    }
+  }
+  .DeleteButton {
+    background: $PrimaryColor;
+    font-size: 0.8rem;
+    width: 36px;
+    height: 22px;
+    // line-height: 20px;
+    text-align: center;
+    color: $WhiteColor;
+    // border: 2px solid $PrimaryColor;
+    border-radius: 4px;
+    margin: auto;
+    // box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 15%);
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    // border-top: 1px solid $PrimaryColor;
+    // border-left: 1px solid $PrimaryColor;
+    // border-bottom: 2px solid #7694b180;
+    // border-right: 1px solid $PrimaryColor;
+    &:hover {
+      // color: red;
+      // transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    &:active {
+      -webkit-transform: translateY(1px);
+      transform: translateY(1px);
+      box-shadow: none;
+      border-top: none;
+      border-bottom: none;
+    }
+  }
+  .Result__Border {
+    padding-top: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    // width: 800px;
+    .Result__Flex {
+      .Flex {
+        display: flex;
+        // width: 50%;
+        margin-bottom: 1em;
+        padding-bottom: 10px;
+        padding-top: 8px;
+        // border-bottom: 1px solid $FontColor;
+        // background-color: $WhiteColor;
+        // box-shadow: 2px 2px 2px rgb(185, 184, 184);
+        @include mq() {
+          justify-content: space-around;
+          width: 48%;
+        }
+        &.left {
+          @include mq() {
+            justify-content: flex-end;
+          }
+        }
+        &.right {
+          padding-right: 16px;
+          @include mq() {
+            justify-content: flex-start;
+            padding-right: 0;
+          }
+        }
+        &Count {
+          height: 72px;
+          width: auto;
+          &__Button {
+            display: flex;
+            height: 36px;
+            width: 80px;
+            .SubCount {
+              background-color: $PrimaryColor;
+              width: 28px;
+              height: 28px;
+              line-height: 24px;
+              border-radius: 50%;
+              margin: auto;
+              padding: 0;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              &.bottom {
+                color: $WhiteColor;
+                font-size: 1.5rem;
+                font-family: '游ゴシック', YuGothic, '游ゴシック体';
+                font-weight: bold;
+              }
+              &:hover {
+                cursor: pointer;
+              }
+              &:active {
+                -webkit-transform: translateY(1px);
+                transform: translateY(1px);
+                box-shadow: none;
+                // border: 1px solid $SubColor;
+                border-bottom: 2px solid $SubColor;
+              }
+              &.top {
+                color: $WhiteColor;
+                font-size: 1.5rem;
+                font-family: '游ゴシック', YuGothic, '游ゴシック体';
+                font-weight: bold;
+              }
+            }
+            .AddCount {
+              background-color: $PrimaryColor;
+              width: 28px;
+              height: 28px;
+              line-height: 25px;
+              border-radius: 50%;
+              margin: auto;
+              padding: 0;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              &.bottom {
+                color: $WhiteColor;
+                font-size: 1.5rem;
+              }
+              &:hover {
+                cursor: pointer;
+              }
+              &:active {
+                -webkit-transform: translateY(1px);
+                transform: translateY(1px);
+                box-shadow: none;
+                // border: 1px solid $SubColor;
+                border-bottom: 2px solid $SubColor;
+              }
+              &.top {
+                color: $WhiteColor;
+                font-size: 1.5rem;
+              }
+            }
+          }
+          &__Point {
+            display: flex;
+            height: 36px;
+            width: 60px;
+
+            @include mq() {
+              display: block;
+              width: 32px;
+              position: relative;
+            }
+            .ResultTime {
+              width: 60px;
+              margin: auto;
+              font-size: 21px;
+              background-color: $SubColor;
+              @include mq() {
+                width: 30px;
+                font-size: 1.2em;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                margin-right: -50%;
+                transform: translate(-50%, -50%);
+              }
+            }
+          }
+        }
+        &Name {
+          color: $FontColor;
+          width: 180px;
+          margin: auto 1rem;
+          @include mq() {
+            width: 88px;
+            font-weight: 600;
+            font-size: 1em;
+            text-shadow: 1px 1px 1px rgb(0, 0, 0, 0.15);
+          }
+          .ResultIndex {
+            border: 1px solid $PrimaryColor;
+            width: 60px;
+            margin: 5px auto;
+            height: 30px;
+            box-shadow: 0px 1px 3px 0 rgba(0, 0, 0, 0.25);
+          }
+          .ResultName {
+            font-size: 1rem;
+            // border: 1px solid $PrimaryColor;
+            width: 178px;
+            height: 50px;
+            line-height: 1;
+            margin: 11px auto;
+            color: $FontColor;
+            // background-color: $SubColor;
+            // box-shadow: 0px 1px 3px 0 rgba(0, 0, 0, 0.25);
+            position: relative;
+            border-top: 1px solid $FontColor;
+            border-bottom: 1px solid $FontColor;
+
+            @include mq() {
+              font-size: 0.8em;
+              width: auto;
+              line-height: 1.2;
+              margin: 4px auto;
+            }
+            &__text {
+              overflow-wrap: break-word;
+              margin: 0;
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              margin-right: -50%;
+              transform: translate(-50%, -50%);
+            }
+          }
+        }
+        &Cross {
+          height: 72px;
+          @include mq() {
+            display: none;
+            width: 2%;
+            border-bottom: 1px solid $FontColor;
+            height: 105px;
+          }
+          &__item {
+            width: 60px;
+            height: 36px;
+            line-height: 30px;
+            font-size: 2em;
+            position: relative;
+            color: $FontColor;
+            @include mq() {
+              width: auto;
+              position: relative;
+            }
+            .CrossText {
+              position: absolute;
+              top: 51%;
+              left: 50%;
+              margin-right: -50%;
+              transform: translate(-50%, -50%);
+              font-size: 0.8em;
+            }
+          }
+        }
+        .FlexNumber {
+          height: 72px;
+          width: 60px;
+          position: relative;
+          @include mq() {
+            margin: auto 2px auto 6px;
+            display: none;
+          }
+          &__item {
+            width: 60px;
+            line-height: 1.5;
+            font-size: 0.8em;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-right: -50%;
+            transform: translate(-50%, -50%);
+            @include mq() {
+              width: 20px;
+              line-height: 1.2;
+              font-size: 0.8em;
+            }
+          }
+        }
+      }
+    }
+  }
+}

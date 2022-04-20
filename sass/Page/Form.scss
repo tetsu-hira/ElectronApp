@@ -1,0 +1,47 @@
+.Form {
+  display: flex;
+  margin-bottom: 1.5em;
+  &Content {
+    display: flex;
+    margin: auto;
+    &__name {
+      height: 40px;
+      border: 1px solid $PrimaryColor;
+      // border-top: none;
+      display: flex;
+      align-items: center;
+      margin: auto 16px;
+      width: 200px;
+      box-shadow: 1px 1px 3px -1px rgba(0, 0, 0, 0.3);
+      color: $FontColor;
+      @include mq() {
+        width: 160px;
+      }
+    }
+    &__button {
+      background: $PrimaryColor;
+      // border-radius: 30px;
+      font-size: 16px;
+      width: 100px;
+      height: 40px;
+      line-height: 20px;
+      text-align: center;
+      color: #fff;
+      border: 1px solid $PrimaryColor;
+      margin: 8px 0;
+      box-shadow: 2px 1px 5px 0 rgba(0, 0, 0, 20%);
+      border-radius: 3px;
+      @include mq() {
+        width: 67px;
+        font-size: 16px;
+        padding-left: 2px;
+        line-height: 17px;
+      }
+      &:hover {
+        background-color: #ffffff;
+        color: $PrimaryColor;
+        transition: all 0.3s ease;
+      }
+    }
+  }
+}
