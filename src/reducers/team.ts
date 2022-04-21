@@ -1,49 +1,44 @@
-type Act = {
-  type: string;
-  payload: string;
-};
-
 const initialState = {
   teamList: [],
 };
-const path = window.location.pathname;
+const path = window.location.hash;
 
-const addTeam = (array: any, team: any, param: any) => {
+const addTeam = (array: Pro[], team: string, param: string) => {
   console.log(param);
-  console.log(array.filter((item: any) => item.param === param));
+  console.log(array);
   return Array.from(
     new Set([
       ...array,
       {
-        ...array.param,
+        ...array,
         users: team,
         point: 0,
         score: 0,
         times: 0,
         count: 0,
         ratio: 0,
-        param: window.location.pathname,
+        param: window.location.hash,
       },
     ]),
   );
 }; //重複データが入らないようにするための対応
 
-const removeTeam = (array: any, team: any) => {
-  return array.filter((v: any, i: any) => v !== team);
-};
+// const removeTeam = (array: Pro, team: string) => {
+//   return array.filter((v: string, i: number) => v !== team);
+// };
 
-const entryTeam = (state: any = initialState, action: Act): any => {
+const entryTeam = (state = initialState, action: Act) => {
   switch (action.type) {
     case 'ADD_Team':
       return {
         ...state,
-        teamList: addTeam(state.teamList, action.payload, window.location.pathname),
+        teamList: addTeam(state.teamList, action.payload, window.location.hash),
       };
-    case 'REMOVE_Team':
-      return {
-        ...state,
-        teamList: removeTeam(state.teamList, action.payload),
-      };
+    // case 'REMOVE_Team':
+    //   return {
+    //     ...state,
+    //     teamList: removeTeam(state.teamList, action.payload),
+    //   };
     default:
       return state;
   }

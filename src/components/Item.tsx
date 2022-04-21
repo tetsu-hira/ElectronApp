@@ -8,24 +8,6 @@ import data from '../data';
 import Button from './Button';
 import Sita from './image/sita.svg';
 
-type Pro = {
-  idnum: number;
-  users: string | undefined;
-  point: number;
-  score: number;
-  times: number;
-  count: number;
-  ratio: number;
-  param: string;
-};
-type Scr = {
-  users: string;
-  time1: number;
-  time2: number;
-  count: number;
-  marks: number;
-};
-
 const Item: React.FC = () => {
   const { item } = useParams<{ item: string }>();
   const [team, setTeam] = useState<string>('');
@@ -38,9 +20,12 @@ const Item: React.FC = () => {
   const [drawWin, setDrawWin] = useState<number>(0);
   const [drawDraw, setDrawDraw] = useState<number>(0);
   const [drawLose, setDrawLose] = useState<number>(0);
-  const [sort, setSort] = useState<any>({});
+  const [sort, setSort] = useState<Sor | undefined>();
 
-  const entryTeam = useSelector((state: any) => state.entryTeam);
+  console.log('plan(対戦表)の中身を表示');
+  console.log(plan);
+
+  const entryTeam = useSelector((state: RootState) => state.entryTeam);
   const dispatch = useDispatch();
   const teamName = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (team) {
@@ -59,52 +44,57 @@ const Item: React.FC = () => {
     setTeam(team.slice(1));
   };
 
-  const param = window.location.pathname;
-  const List = entryTeam.teamList.filter((item: any) => item.param === param);
-  console.log(List);
+  const param = window.location.hash;
+  const List = entryTeam.teamList.filter((item: Par) => item.param === param);
+  console.log('表示test');
+  console.log(window.location.hash);
 
   const KEYS = Object.keys(data);
   console.log(KEYS);
 
   // ソート機能を実装
   const sortList = useMemo(() => {
-    let _sortList = List;
-    if (sort.key) {
-      _sortList = _sortList.sort((a: any, b: any) => {
-        a = a[sort.key];
-        b = b[sort.key];
+    if (sort) {
+      let _sortList = List;
+      if (sort.key) {
+        _sortList = _sortList.sort((a: string, b: string) => {
+          a = a[sort.key];
+          b = b[sort.key];
 
-        if (a === b) {
-          return 0;
-        }
-        if (a > b) {
-          return 1 * sort.order;
-        }
-        if (a < b) {
-          return -1 * sort.order;
-        }
-      });
+          if (a === b) {
+            return 0;
+          }
+          if (a > b) {
+            return 1 * sort.order;
+          }
+          if (a < b) {
+            return -1 * sort.order;
+          }
+        });
+      }
+      return _sortList;
     }
-    return _sortList;
   }, [sort]);
   console.log(sort);
 
   const handleSort = (key: number) => {
-    if (sort.key === key) {
-      setSort({ ...sort, order: -sort.order });
-    } else {
-      setSort({
-        key: key,
-        order: -1,
-      });
+    if (sort) {
+      if (sort.key === key) {
+        setSort({ ...sort, order: -sort.order });
+      } else {
+        setSort({
+          key: key,
+          order: -1,
+        });
+      }
     }
   };
 
   // 対戦表にチームを登録
   const addPlan = (index: number) => {
-    const addName: any = List.find((elem: any) => List[index] === elem);
+    const addName: Add = List.find((elem: number) => List[index] === elem);
     setPlan([...plan, { users: addName.users, time1: 0, time2: 0, count: 0, marks: 0 }]);
-    const result: any = plan.filter((plans) => {
+    const result: Scr[] = plan.filter((plans) => {
       return plans.users === List[index].users;
     });
     const result1 = result.length + 1;
@@ -113,104 +103,131 @@ const Item: React.FC = () => {
 
   // 対戦表に登録したチームの取り消し
   const handleRemoveTask = (index: number) => {
-    const delTeam: any = plan.find((elem: any) => plan[index] === elem);
+    const delTeam: Scr | undefined = plan.find((elem: Scr) => plan[index] === elem);
     const newPlan = [...plan];
     newPlan.splice(index, 1);
     setPlan(newPlan);
-    const result: any = newPlan.filter((plans) => {
-      return plans.users === delTeam.users;
+    const result: Scr[] = newPlan.filter((plans) => {
+      if (delTeam) {
+        return plans.users === delTeam.users;
+      }
     });
-    const result1: any = List.find((elem: any) => elem.users === delTeam.users);
+    const result1: Pro = List.find((elem: Scr) => {
+      if (delTeam) {
+        elem.users === delTeam.users;
+      }
+    });
     const result2 = result.length;
     result1.times = result2;
   };
 
   const addTime1 = (index: number, minute: number) => {
-    const targetPlan: any = plan.find((elem: any) => plan[index] === elem);
-    targetPlan.time1 = targetPlan.time1 + minute;
-    setTime1(targetPlan.time1);
-    // 奇数か偶数で処理を変える
-    if (index % 2 === 0) {
-      const nextPlan: any = plan.find((elem: any) => plan[index + 1] === elem);
-      targetPlan.count = targetPlan.time1 + targetPlan.time2 - (nextPlan.time1 + nextPlan.time2);
-      nextPlan.count = nextPlan.time1 + nextPlan.time2 - (targetPlan.time1 + targetPlan.time2);
-      setCount(targetPlan.count);
-      if (targetPlan.time1 > nextPlan.time1 && targetPlan.time2 > nextPlan.time2) {
-        targetPlan.marks = Number(win);
-        nextPlan.marks = Number(lose);
-      } else if (targetPlan.time1 < nextPlan.time1 && targetPlan.time2 < nextPlan.time2) {
-        targetPlan.marks = Number(lose);
-        nextPlan.marks = Number(win);
-      } else if (
-        (targetPlan.time1 < nextPlan.time1 && targetPlan.time2 > nextPlan.time2) ||
-        (targetPlan.time1 > nextPlan.time1 && targetPlan.time2 < nextPlan.time2)
-      ) {
-        if (targetPlan.time1 + targetPlan.time2 > nextPlan.time1 + nextPlan.time2) {
-          targetPlan.marks = Number(drawWin);
-          nextPlan.marks = Number(drawLose);
-        } else if (targetPlan.time1 + targetPlan.time2 < nextPlan.time1 + nextPlan.time2) {
-          targetPlan.marks = Number(drawLose);
-          nextPlan.marks = Number(drawWin);
-        } else {
-          targetPlan.marks = Number(drawDraw);
-          nextPlan.marks = Number(drawDraw);
+    const targetPlan: Scr | undefined = plan.find((elem: Scr) => plan[index] === elem);
+    if (targetPlan) {
+      targetPlan.time1 = targetPlan.time1 + minute;
+      setTime1(targetPlan.time1);
+      // 奇数か偶数で処理を変える
+      if (index % 2 === 0) {
+        const nextPlan: Scr | undefined = plan.find((elem: Scr) => plan[index + 1] === elem);
+        if (nextPlan) {
+          targetPlan.count =
+            targetPlan.time1 + targetPlan.time2 - (nextPlan.time1 + nextPlan.time2);
+          nextPlan.count = nextPlan.time1 + nextPlan.time2 - (targetPlan.time1 + targetPlan.time2);
+          setCount(targetPlan.count);
+          if (targetPlan.time1 > nextPlan.time1 && targetPlan.time2 > nextPlan.time2) {
+            targetPlan.marks = Number(win);
+            nextPlan.marks = Number(lose);
+          } else if (targetPlan.time1 < nextPlan.time1 && targetPlan.time2 < nextPlan.time2) {
+            targetPlan.marks = Number(lose);
+            nextPlan.marks = Number(win);
+          } else if (
+            (targetPlan.time1 < nextPlan.time1 && targetPlan.time2 > nextPlan.time2) ||
+            (targetPlan.time1 > nextPlan.time1 && targetPlan.time2 < nextPlan.time2)
+          ) {
+            if (targetPlan.time1 + targetPlan.time2 > nextPlan.time1 + nextPlan.time2) {
+              targetPlan.marks = Number(drawWin);
+              nextPlan.marks = Number(drawLose);
+            } else if (targetPlan.time1 + targetPlan.time2 < nextPlan.time1 + nextPlan.time2) {
+              targetPlan.marks = Number(drawLose);
+              nextPlan.marks = Number(drawWin);
+            } else {
+              targetPlan.marks = Number(drawDraw);
+              nextPlan.marks = Number(drawDraw);
+            }
+          } else {
+            targetPlan.marks = Number(lose);
+            nextPlan.marks = Number(lose);
+          }
         }
       } else {
-        targetPlan.marks = Number(lose);
-        nextPlan.marks = Number(lose);
-      }
-    } else {
-      const prevPlan: any = plan.find((elem) => plan[index - 1] === elem);
-      targetPlan.count = targetPlan.time1 + targetPlan.time2 - (prevPlan.time1 + prevPlan.time2);
-      prevPlan.count = prevPlan.time1 + prevPlan.time2 - (targetPlan.time1 + targetPlan.time2);
-      setCount(targetPlan.count);
-      if (targetPlan.time1 > prevPlan.time1 && targetPlan.time2 > prevPlan.time2) {
-        targetPlan.marks = Number(win);
-        prevPlan.marks = Number(lose);
-      } else if (targetPlan.time1 < prevPlan.time1 && targetPlan.time2 < prevPlan.time2) {
-        targetPlan.marks = Number(lose);
-        prevPlan.marks = Number(win);
-      } else if (
-        (targetPlan.time1 < prevPlan.time1 && targetPlan.time2 > prevPlan.time2) ||
-        (targetPlan.time1 > prevPlan.time1 && targetPlan.time2 < prevPlan.time2)
-      ) {
-        if (targetPlan.time1 + targetPlan.time2 > prevPlan.time1 + prevPlan.time2) {
-          targetPlan.marks = Number(drawWin);
-          prevPlan.marks = Number(drawLose);
-        } else if (targetPlan.time1 + targetPlan.time2 < prevPlan.time1 + prevPlan.time2) {
-          targetPlan.marks = Number(drawLose);
-          prevPlan.marks = Number(drawWin);
-        } else {
-          targetPlan.marks = Number(drawDraw);
-          prevPlan.marks = Number(drawDraw);
+        const prevPlan: Scr | undefined = plan.find((elem) => plan[index - 1] === elem);
+        if (prevPlan) {
+          targetPlan.count =
+            targetPlan.time1 + targetPlan.time2 - (prevPlan.time1 + prevPlan.time2);
+          prevPlan.count = prevPlan.time1 + prevPlan.time2 - (targetPlan.time1 + targetPlan.time2);
+          setCount(targetPlan.count);
+          if (targetPlan.time1 > prevPlan.time1 && targetPlan.time2 > prevPlan.time2) {
+            targetPlan.marks = Number(win);
+            prevPlan.marks = Number(lose);
+          } else if (targetPlan.time1 < prevPlan.time1 && targetPlan.time2 < prevPlan.time2) {
+            targetPlan.marks = Number(lose);
+            prevPlan.marks = Number(win);
+          } else if (
+            (targetPlan.time1 < prevPlan.time1 && targetPlan.time2 > prevPlan.time2) ||
+            (targetPlan.time1 > prevPlan.time1 && targetPlan.time2 < prevPlan.time2)
+          ) {
+            if (targetPlan.time1 + targetPlan.time2 > prevPlan.time1 + prevPlan.time2) {
+              targetPlan.marks = Number(drawWin);
+              prevPlan.marks = Number(drawLose);
+            } else if (targetPlan.time1 + targetPlan.time2 < prevPlan.time1 + prevPlan.time2) {
+              targetPlan.marks = Number(drawLose);
+              prevPlan.marks = Number(drawWin);
+            } else {
+              targetPlan.marks = Number(drawDraw);
+              prevPlan.marks = Number(drawDraw);
+            }
+          } else {
+            targetPlan.marks = Number(lose);
+            prevPlan.marks = Number(lose);
+          }
         }
-      } else {
-        targetPlan.marks = Number(lose);
-        prevPlan.marks = Number(lose);
       }
     }
     // ここから繰り返し処理
     for (let i = 0; i < List.length; i++) {
-      const countPlan: any = List.find((elem: any) => List[i] === elem);
+      const countPlan: Scr | undefined = List.find((elem: Scr) => List[i] === elem);
       // 得失点の合計値をtotalに代入
-      const sumCount: any = plan.filter((plans) => {
-        return plans.users === countPlan.users;
+      const sumCount: Scr[] = plan.filter((plans) => {
+        if (countPlan) {
+          return plans.users === countPlan.users;
+        }
       });
-      const total = sumCount.reduce(function (sum: number, element: any) {
+      const total = sumCount.reduce(function (sum: number, element: Scr) {
         return sum + element.count;
       }, 0);
       // 合計をListに反映
-      const update: any = List.find((elem: any) => elem.users === countPlan.users);
+      const update: Pro = List.find((elem: Scr) => {
+        if (countPlan) {
+          elem.users === countPlan.users;
+        }
+      });
       update.score = total;
       // 勝ち点の合計値をamountに代入
-      const sumMarks: any = plan.filter((plans) => {
-        return plans.users === countPlan.users;
+      const sumMarks: Scr[] = plan.filter((plans) => {
+        if (countPlan) {
+          return plans.users === countPlan.users;
+        }
       });
-      const amount = sumMarks.reduce(function (sum: number, element: any) {
+      const amount = sumMarks.reduce(function (sum: number, element: Scr) {
         return sum + element.marks;
       }, 0);
       // 合計をListに反映
-      const overwrite: any = List.find((elem: any) => elem.users === countPlan.users);
+      const overwrite: Pro = List.find((elem: Scr) => {
+        if (countPlan) {
+          elem.users === countPlan.users;
+        }
+      });
+
       overwrite.point = amount;
     }
     // ここまで繰り返し
@@ -220,91 +237,99 @@ const Item: React.FC = () => {
     console.log(count);
   };
   const addTime2 = (index: number, minute: number) => {
-    const targetPlan: any = plan.find((elem) => plan[index] === elem);
-    targetPlan.time2 = targetPlan.time2 + minute;
-    setTime2(targetPlan.time2);
-    // 奇数か偶数で処理を変える
-    if (index % 2 === 0) {
-      const nextPlan: any = plan.find((elem) => plan[index + 1] === elem);
-      targetPlan.count = targetPlan.time1 + targetPlan.time2 - (nextPlan.time1 + nextPlan.time2);
-      nextPlan.count = nextPlan.time1 + nextPlan.time2 - (targetPlan.time1 + targetPlan.time2);
-      setCount(targetPlan.count);
-      if (targetPlan.time1 > nextPlan.time1 && targetPlan.time2 > nextPlan.time2) {
-        targetPlan.marks = Number(win);
-        nextPlan.marks = Number(lose);
-      } else if (targetPlan.time1 < nextPlan.time1 && targetPlan.time2 < nextPlan.time2) {
-        targetPlan.marks = Number(lose);
-        nextPlan.marks = Number(win);
-      } else if (
-        (targetPlan.time1 < nextPlan.time1 && targetPlan.time2 > nextPlan.time2) ||
-        (targetPlan.time1 > nextPlan.time1 && targetPlan.time2 < nextPlan.time2)
-      ) {
-        if (targetPlan.time1 + targetPlan.time2 > nextPlan.time1 + nextPlan.time2) {
-          targetPlan.marks = Number(drawWin);
-          nextPlan.marks = Number(drawLose);
-        } else if (targetPlan.time1 + targetPlan.time2 < nextPlan.time1 + nextPlan.time2) {
-          targetPlan.marks = Number(drawLose);
-          nextPlan.marks = Number(drawWin);
-        } else {
-          targetPlan.marks = Number(drawDraw);
-          nextPlan.marks = Number(drawDraw);
+    const targetPlan: Scr | undefined = plan.find((elem) => plan[index] === elem);
+    if (targetPlan) {
+      targetPlan.time2 = targetPlan.time2 + minute;
+      setTime2(targetPlan.time2);
+      // 奇数か偶数で処理を変える
+      if (index % 2 === 0) {
+        const nextPlan: Scr | undefined = plan.find((elem) => plan[index + 1] === elem);
+        if (nextPlan) {
+          targetPlan.count =
+            targetPlan.time1 + targetPlan.time2 - (nextPlan.time1 + nextPlan.time2);
+          nextPlan.count = nextPlan.time1 + nextPlan.time2 - (targetPlan.time1 + targetPlan.time2);
+          setCount(targetPlan.count);
+          if (targetPlan.time1 > nextPlan.time1 && targetPlan.time2 > nextPlan.time2) {
+            targetPlan.marks = Number(win);
+            nextPlan.marks = Number(lose);
+          } else if (targetPlan.time1 < nextPlan.time1 && targetPlan.time2 < nextPlan.time2) {
+            targetPlan.marks = Number(lose);
+            nextPlan.marks = Number(win);
+          } else if (
+            (targetPlan.time1 < nextPlan.time1 && targetPlan.time2 > nextPlan.time2) ||
+            (targetPlan.time1 > nextPlan.time1 && targetPlan.time2 < nextPlan.time2)
+          ) {
+            if (targetPlan.time1 + targetPlan.time2 > nextPlan.time1 + nextPlan.time2) {
+              targetPlan.marks = Number(drawWin);
+              nextPlan.marks = Number(drawLose);
+            } else if (targetPlan.time1 + targetPlan.time2 < nextPlan.time1 + nextPlan.time2) {
+              targetPlan.marks = Number(drawLose);
+              nextPlan.marks = Number(drawWin);
+            } else {
+              targetPlan.marks = Number(drawDraw);
+              nextPlan.marks = Number(drawDraw);
+            }
+          } else {
+            targetPlan.marks = Number(lose);
+            nextPlan.marks = Number(lose);
+          }
         }
       } else {
-        targetPlan.marks = Number(lose);
-        nextPlan.marks = Number(lose);
-      }
-    } else {
-      const prevPlan: any = plan.find((elem) => plan[index - 1] === elem);
-      targetPlan.count = targetPlan.time1 + targetPlan.time2 - (prevPlan.time1 + prevPlan.time2);
-      prevPlan.count = prevPlan.time1 + prevPlan.time2 - (targetPlan.time1 + targetPlan.time2);
-      setCount(targetPlan.count);
-      if (targetPlan.time1 > prevPlan.time1 && targetPlan.time2 > prevPlan.time2) {
-        targetPlan.marks = Number(win);
-        prevPlan.marks = Number(lose);
-      } else if (targetPlan.time1 < prevPlan.time1 && targetPlan.time2 < prevPlan.time2) {
-        targetPlan.marks = Number(lose);
-        prevPlan.marks = Number(win);
-      } else if (
-        (targetPlan.time1 < prevPlan.time1 && targetPlan.time2 > prevPlan.time2) ||
-        (targetPlan.time1 > prevPlan.time1 && targetPlan.time2 < prevPlan.time2)
-      ) {
-        if (targetPlan.time1 + targetPlan.time2 > prevPlan.time1 + prevPlan.time2) {
-          targetPlan.marks = Number(drawWin);
-          prevPlan.marks = Number(drawLose);
-        } else if (targetPlan.time1 + targetPlan.time2 < prevPlan.time1 + prevPlan.time2) {
-          targetPlan.marks = Number(drawLose);
-          prevPlan.marks = Number(drawWin);
-        } else {
-          targetPlan.marks = Number(drawDraw);
-          prevPlan.marks = Number(drawDraw);
+        const prevPlan: Scr | undefined = plan.find((elem) => plan[index - 1] === elem);
+        if (prevPlan) {
+          targetPlan.count =
+            targetPlan.time1 + targetPlan.time2 - (prevPlan.time1 + prevPlan.time2);
+          prevPlan.count = prevPlan.time1 + prevPlan.time2 - (targetPlan.time1 + targetPlan.time2);
+          setCount(targetPlan.count);
+          if (targetPlan.time1 > prevPlan.time1 && targetPlan.time2 > prevPlan.time2) {
+            targetPlan.marks = Number(win);
+            prevPlan.marks = Number(lose);
+          } else if (targetPlan.time1 < prevPlan.time1 && targetPlan.time2 < prevPlan.time2) {
+            targetPlan.marks = Number(lose);
+            prevPlan.marks = Number(win);
+          } else if (
+            (targetPlan.time1 < prevPlan.time1 && targetPlan.time2 > prevPlan.time2) ||
+            (targetPlan.time1 > prevPlan.time1 && targetPlan.time2 < prevPlan.time2)
+          ) {
+            if (targetPlan.time1 + targetPlan.time2 > prevPlan.time1 + prevPlan.time2) {
+              targetPlan.marks = Number(drawWin);
+              prevPlan.marks = Number(drawLose);
+            } else if (targetPlan.time1 + targetPlan.time2 < prevPlan.time1 + prevPlan.time2) {
+              targetPlan.marks = Number(drawLose);
+              prevPlan.marks = Number(drawWin);
+            } else {
+              targetPlan.marks = Number(drawDraw);
+              prevPlan.marks = Number(drawDraw);
+            }
+          } else {
+            targetPlan.marks = Number(lose);
+            prevPlan.marks = Number(lose);
+          }
         }
-      } else {
-        targetPlan.marks = Number(lose);
-        prevPlan.marks = Number(lose);
       }
     }
     // ここから繰り返し処理
     for (let i = 0; i < List.length; i++) {
-      const countPlan: any = List.find((elem: any) => List[i] === elem);
+      const countPlan: Scr = List.find((elem: Scr) => List[i] === elem);
       // 得失点の合計値をtotalに代入
-      const sumCount: any = plan.filter((plans) => {
+      const sumCount: Scr[] = plan.filter((plans) => {
         return plans.users === countPlan.users;
       });
-      const total = sumCount.reduce(function (sum: number, element: any) {
+      const total = sumCount.reduce(function (sum: number, element: Scr) {
         return sum + element.count;
       }, 0);
       // 合計をListに反映
-      const update: any = List.find((elem: any) => elem.users === countPlan.users);
+      const update: Pro = List.find((elem: Scr) => elem.users === countPlan.users);
       update.score = total;
       // 勝ち点の合計値をamountに代入
-      const sumMarks: any = plan.filter((plans) => {
+      const sumMarks: Scr[] = plan.filter((plans) => {
         return plans.users === countPlan.users;
       });
-      const amount = sumMarks.reduce(function (sum: number, element: any) {
+      const amount = sumMarks.reduce(function (sum: number, element: Scr) {
         return sum + element.marks;
       }, 0);
       // 合計をListに反映
-      const overwrite: any = List.find((elem: any) => elem.users === countPlan.users);
+      const overwrite: Pro = List.find((elem: Scr) => elem.users === countPlan.users);
       overwrite.point = amount;
     }
     // ここまで繰り返し
@@ -313,18 +338,18 @@ const Item: React.FC = () => {
     console.log(count);
   };
 
-  const changeWin = (e: any) => {
-    setWin(e.target.value);
+  const changeWin = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setWin(Number(event.target.value));
     setLose(0);
   };
-  const changeDrawWin = (e: any) => {
-    setDrawWin(e.target.value);
+  const changeDrawWin = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setDrawWin(Number(event.target.value));
   };
-  const changeDrawDraw = (e: any) => {
-    setDrawDraw(e.target.value);
+  const changeDrawDraw = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setDrawDraw(Number(event.target.value));
   };
-  const changeDrawLose = (e: any) => {
-    setDrawLose(e.target.value);
+  const changeDrawLose = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setDrawLose(Number(event.target.value));
   };
 
   return (
@@ -399,7 +424,7 @@ const Item: React.FC = () => {
           </div>
           {entryTeam.teamList.length > 0 && (
             <ul className='List'>
-              {List.map((team: any, index: number) => (
+              {List.map((team: Pro, index: number) => (
                 <li key={index} className='ListTop'>
                   <div className='ListBody id'>{index + 1}</div>
                   <div className='ListBody users'>

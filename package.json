@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "main": "build/electron/electron.js",
-  "type": "module",
   "homepage": "./",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.4",

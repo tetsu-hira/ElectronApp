@@ -67,6 +67,10 @@ button {
   appearance: none;
 }
 
+@font-face {
+  font-family: Mochiy Pop P One;
+  src: url("../webfonts/MochiyPopPOne-Regular.ttf");
+}
 .upButton {
   position: fixed;
   font-size: 2rem;
@@ -457,6 +461,13 @@ button {
   background-color: #fff;
   margin-left: 4px;
   content: "";
+}
+
+.Index {
+  padding-top: 1rem;
+}
+.Index h1 {
+  padding-bottom: 0.75rem;
 }
 
 .Insert {

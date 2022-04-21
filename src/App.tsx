@@ -7,14 +7,11 @@ import allActions from './actions';
 import Header from './components/Header';
 import Index from './components/Index';
 import Item from './components/Item';
-import Process from './components/Process';
-import Product from './components/Product';
-import Test from './components/Test';
 
 const App: React.FC = () => {
   const [item, setItem] = useState<string>('');
 
-  const entryItem = useSelector((state: any) => state.entryItem);
+  const entryItem = useSelector((state: RootState) => state.entryItem);
   const dispatch = useDispatch();
   const itemName = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (item) {
@@ -34,6 +31,8 @@ const App: React.FC = () => {
     setItem(' ');
     console.log(item);
   };
+
+  console.log(location.href);
 
   return (
     <HashRouter>
@@ -67,7 +66,7 @@ const App: React.FC = () => {
                 {entryItem.itemList.map((item: string) => (
                   <li key={item} className='TopList__item'>
                     <div className='TopList__itemName'>
-                      <Link to={`./New2set/${item}`} className='TopList__itemName'>
+                      <Link to={`./${item}`} className='TopList__itemName'>
                         <p>{item}</p>
                       </Link>
                     </div>
@@ -77,11 +76,8 @@ const App: React.FC = () => {
             </div>
             <div className='TopContainer__Right'>
               <Routes>
-                <Route path='/New2set' element={<Index />} />
-                <Route path='/top' element={<Process />} />
-                <Route path='/test' element={<Test />} />
-                <Route path='/:id/:name' element={<Product />} />
-                <Route path='/New2set/:item' element={<Item />} />
+                <Route path='/' element={<Index />} />
+                <Route path='/:item' element={<Item />} />
               </Routes>
             </div>
           </div>
