@@ -11,6 +11,9 @@ export declare global {
     entryTeam: {
       teamList;
     };
+    controlMatch: {
+      matchList;
+    };
   }
   interface State {
     teamList: {
@@ -24,9 +27,17 @@ export declare global {
     count: number;
     marks: number;
   }
+  interface Mat {
+    users: string;
+    time1: number;
+    time2: number;
+    count: number;
+    marks: number;
+    param: string;
+  }
   interface Pro {
     idnum: number;
-    users: string | undefined;
+    users: string;
     point: number;
     score: number;
     times: number;
@@ -34,7 +45,7 @@ export declare global {
     ratio: number;
     param: string;
   }
-  interface Par {
+  interface Param {
     param: string;
   }
   interface Sor {
@@ -47,11 +58,22 @@ export declare global {
   interface Act {
     type: string;
     payload: string;
+    index: number;
   }
   interface Props {
     key: number;
     button: string;
     handleSort: (key: number) => void;
     sort: Sor | undefined;
+  }
+  interface Obj {
+    type: string;
+    payload: string;
+    param: string;
+  }
+  interface Obn {
+    type: string;
+    payload: Scr[];
+    index: number;
   }
 }

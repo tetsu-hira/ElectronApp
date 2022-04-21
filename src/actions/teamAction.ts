@@ -1,9 +1,3 @@
-interface Obj {
-  type: string;
-  payload: string;
-  param: string;
-}
-
 const addTeam = (team: string, param: string): Obj => {
   return {
     type: 'ADD_Team',

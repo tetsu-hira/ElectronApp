@@ -22,10 +22,14 @@ const Item: React.FC = () => {
   const [drawLose, setDrawLose] = useState<number>(0);
   const [sort, setSort] = useState<Sor | undefined>();
 
-  console.log('plan(対戦表)の中身を表示');
-  console.log(plan);
+  const counter = (count: number, point: number) => {
+    setCount(window.myAPI.counter(count) + point);
+  };
 
   const entryTeam = useSelector((state: RootState) => state.entryTeam);
+
+  const controlMatch = useSelector((state: RootState) => state.controlMatch);
+
   const dispatch = useDispatch();
   const teamName = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (team) {
@@ -45,12 +49,14 @@ const Item: React.FC = () => {
   };
 
   const param = window.location.hash;
-  const List = entryTeam.teamList.filter((item: Par) => item.param === param);
-  console.log('表示test');
-  console.log(window.location.hash);
+
+  const List = entryTeam.teamList.filter((item: Param) => item.param === param);
+
+  const Plan = controlMatch.matchList.filter((item: Mat) => item.param === param);
+  console.log(Plan);
 
   const KEYS = Object.keys(data);
-  console.log(KEYS);
+  // console.log(KEYS);
 
   // ソート機能を実装
   const sortList = useMemo(() => {
@@ -75,7 +81,7 @@ const Item: React.FC = () => {
       return _sortList;
     }
   }, [sort]);
-  console.log(sort);
+  // console.log(sort);
 
   const handleSort = (key: number) => {
     if (sort) {
@@ -415,6 +421,16 @@ const Item: React.FC = () => {
                 ></input>
               </div>
             </div>
+            {/* APIのテスト */}
+            <p>{count}</p>
+            <button
+              onClick={() => {
+                counter(count, 5);
+              }}
+            >
+              count
+            </button>
+            {/* APIのテスト */}
           </div>
           <div className='Item'>
             <div className='ItemHead id'>No.</div>
@@ -429,7 +445,10 @@ const Item: React.FC = () => {
                   <div className='ListBody id'>{index + 1}</div>
                   <div className='ListBody users'>
                     {team.users}
-                    <button className='ListButton' onClick={() => addPlan(index)}>
+                    <button
+                      className='ListButton'
+                      onClick={() => dispatch(allActions.matchAction.addMatch(team.users, param))}
+                    >
                       <img src={Sita} alt='↓' width='23px' height='16px' />
                     </button>
                   </div>
@@ -444,9 +463,9 @@ const Item: React.FC = () => {
           )}
         </div>
       </div>
-      {plan.length > 0 && (
+      {Plan.length > 0 && (
         <div className='Result'>
-          {plan.map((item, index: number) => (
+          {Plan.map((item: Mat, index: number) => (
             <div className='Result__Border' key={index}>
               <div className='Result__Flex' key={index}>
                 <div className={index % 2 === 0 ? 'Flex left' : 'Flex right'} key={index}>
@@ -456,7 +475,10 @@ const Item: React.FC = () => {
                     </div>
                   )}
                   {index % 2 === 0 && (
-                    <button className='DeleteButton' onClick={() => handleRemoveTask(index)}>
+                    <button
+                      className='DeleteButton'
+                      onClick={() => dispatch(allActions.matchAction.removeMatch(Plan, index))}
+                    >
                       Del
                     </button>
                   )}
@@ -539,7 +561,10 @@ const Item: React.FC = () => {
                     )}
                   </div>
                   {index % 2 !== 0 && (
-                    <button className='DeleteButton' onClick={() => handleRemoveTask(index)}>
+                    <button
+                      className='DeleteButton'
+                      onClick={() => dispatch(allActions.matchAction.removeMatch(Plan, index))}
+                    >
                       Del
                     </button>
                   )}

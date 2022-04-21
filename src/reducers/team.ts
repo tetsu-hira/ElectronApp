@@ -3,14 +3,14 @@ const initialState = {
 };
 const path = window.location.hash;
 
-const addTeam = (array: Pro[], team: string, param: string) => {
+const addTeam = (array: any, team: string, param: string) => {
   console.log(param);
   console.log(array);
   return Array.from(
     new Set([
       ...array,
       {
-        ...array,
+        ...array.param,
         users: team,
         point: 0,
         score: 0,

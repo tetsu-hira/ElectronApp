@@ -1,8 +1,3 @@
-type Act = {
-  type: string;
-  payload: string;
-};
-
 const initialState = {
   itemList: [],
 };
