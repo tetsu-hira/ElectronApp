@@ -1,7 +1,7 @@
 export declare global {
   interface Window {
     myAPI: {
-      counter: (count: number) => number;
+      counter: (index: number, count: number, plus: number) => number;
     };
   }
   interface RootState {
@@ -19,13 +19,6 @@ export declare global {
     teamList: {
       //
     };
-  }
-  interface Scr {
-    users: string;
-    time1: number;
-    time2: number;
-    count: number;
-    marks: number;
   }
   interface Mat {
     users: string;

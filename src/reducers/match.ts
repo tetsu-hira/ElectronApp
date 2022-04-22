@@ -22,10 +22,7 @@ const addMatch = (array: any, team: string, param: string) => {
   );
 }; //重複データが入らないようにするための対応
 
-const removeMatch = (array: Scr[], index: number) => {
-  console.log(array);
-  console.log(index);
-
+const removeMatch = (array: Mat[], index: number) => {
   array.splice(index, 1);
   const newArray = [...array];
   return newArray;

@@ -11,7 +11,7 @@ import Sita from './image/sita.svg';
 const Item: React.FC = () => {
   const { item } = useParams<{ item: string }>();
   const [team, setTeam] = useState<string>('');
-  const [plan, setPlan] = useState<Scr[]>([]);
+  const [plan, setPlan] = useState<Pro[]>([]);
   const [time1, setTime1] = useState<number>(0);
   const [time2, setTime2] = useState<number>(0);
   const [count, setCount] = useState<number>(0);
@@ -21,10 +21,6 @@ const Item: React.FC = () => {
   const [drawDraw, setDrawDraw] = useState<number>(0);
   const [drawLose, setDrawLose] = useState<number>(0);
   const [sort, setSort] = useState<Sor | undefined>();
-
-  const counter = (count: number, point: number) => {
-    setCount(window.myAPI.counter(count) + point);
-  };
 
   const entryTeam = useSelector((state: RootState) => state.entryTeam);
 
@@ -51,9 +47,28 @@ const Item: React.FC = () => {
   const param = window.location.hash;
 
   const List = entryTeam.teamList.filter((item: Param) => item.param === param);
+  console.log(List);
 
   const Plan = controlMatch.matchList.filter((item: Mat) => item.param === param);
   console.log(Plan);
+
+  const handleAddTimes = (index: number) => {
+    const result: Pro[] = Plan.filter((plans: Mat) => {
+      return plans.users === List[index].users;
+    });
+    const result1 = result.length + 1;
+    List[index].times = result1;
+    console.log('test');
+  };
+  const handleReduceTimes = (users: string) => {
+    const result: Mat[] = Plan.filter((plans: Mat) => {
+      return plans.users === users;
+    });
+    console.log(result);
+    const result2 = List.find((List: Pro) => List.users === users);
+    console.log(result2);
+    result2.times = result.length - 1;
+  };
 
   const KEYS = Object.keys(data);
   // console.log(KEYS);
@@ -96,45 +111,32 @@ const Item: React.FC = () => {
     }
   };
 
-  // 対戦表にチームを登録
-  const addPlan = (index: number) => {
-    const addName: Add = List.find((elem: number) => List[index] === elem);
-    setPlan([...plan, { users: addName.users, time1: 0, time2: 0, count: 0, marks: 0 }]);
-    const result: Scr[] = plan.filter((plans) => {
-      return plans.users === List[index].users;
-    });
-    const result1 = result.length + 1;
-    List[index].times = result1;
+  const handle1setPoint = (index: number, point: number) => {
+    setTime1(point);
+    console.log(Plan[index]);
+    Plan[index].time1 = point;
+    console.log(time1);
+  };
+  const handle2setPoint = (index: number, point: number) => {
+    setTime2(point);
+    console.log(Plan[index]);
+    Plan[index].time2 = point;
+    console.log(time2);
   };
 
-  // 対戦表に登録したチームの取り消し
-  const handleRemoveTask = (index: number) => {
-    const delTeam: Scr | undefined = plan.find((elem: Scr) => plan[index] === elem);
-    const newPlan = [...plan];
-    newPlan.splice(index, 1);
-    setPlan(newPlan);
-    const result: Scr[] = newPlan.filter((plans) => {
-      if (delTeam) {
-        return plans.users === delTeam.users;
-      }
-    });
-    const result1: Pro = List.find((elem: Scr) => {
-      if (delTeam) {
-        elem.users === delTeam.users;
-      }
-    });
-    const result2 = result.length;
-    result1.times = result2;
+  const consoless = (times: number) => {
+    setCount(times);
+    console.log(times);
   };
 
   const addTime1 = (index: number, minute: number) => {
-    const targetPlan: Scr | undefined = plan.find((elem: Scr) => plan[index] === elem);
+    const targetPlan: Mat | undefined = Plan.find((elem: Mat) => Plan[index] === elem);
     if (targetPlan) {
       targetPlan.time1 = targetPlan.time1 + minute;
       setTime1(targetPlan.time1);
       // 奇数か偶数で処理を変える
       if (index % 2 === 0) {
-        const nextPlan: Scr | undefined = plan.find((elem: Scr) => plan[index + 1] === elem);
+        const nextPlan: Mat | undefined = Plan.find((elem: Mat) => Plan[index + 1] === elem);
         if (nextPlan) {
           targetPlan.count =
             targetPlan.time1 + targetPlan.time2 - (nextPlan.time1 + nextPlan.time2);
@@ -166,7 +168,7 @@ const Item: React.FC = () => {
           }
         }
       } else {
-        const prevPlan: Scr | undefined = plan.find((elem) => plan[index - 1] === elem);
+        const prevPlan: Mat | undefined = Plan.find((elem: Mat) => Plan[index - 1] === elem);
         if (prevPlan) {
           targetPlan.count =
             targetPlan.time1 + targetPlan.time2 - (prevPlan.time1 + prevPlan.time2);
@@ -201,34 +203,34 @@ const Item: React.FC = () => {
     }
     // ここから繰り返し処理
     for (let i = 0; i < List.length; i++) {
-      const countPlan: Scr | undefined = List.find((elem: Scr) => List[i] === elem);
+      const countPlan: Pro | undefined = List.find((elem: Pro) => List[i] === elem);
       // 得失点の合計値をtotalに代入
-      const sumCount: Scr[] = plan.filter((plans) => {
+      const sumCount: Pro[] = plan.filter((plans) => {
         if (countPlan) {
           return plans.users === countPlan.users;
         }
       });
-      const total = sumCount.reduce(function (sum: number, element: Scr) {
+      const total = sumCount.reduce(function (sum: number, element: Pro) {
         return sum + element.count;
       }, 0);
       // 合計をListに反映
-      const update: Pro = List.find((elem: Scr) => {
+      const update: Pro = List.find((elem: Pro) => {
         if (countPlan) {
           elem.users === countPlan.users;
         }
       });
       update.score = total;
       // 勝ち点の合計値をamountに代入
-      const sumMarks: Scr[] = plan.filter((plans) => {
+      const sumMarks: Mat[] = Plan.filter((plans: Mat) => {
         if (countPlan) {
           return plans.users === countPlan.users;
         }
       });
-      const amount = sumMarks.reduce(function (sum: number, element: Scr) {
+      const amount = sumMarks.reduce(function (sum: number, element: Mat) {
         return sum + element.marks;
       }, 0);
       // 合計をListに反映
-      const overwrite: Pro = List.find((elem: Scr) => {
+      const overwrite: Pro = List.find((elem: Pro) => {
         if (countPlan) {
           elem.users === countPlan.users;
         }
@@ -243,13 +245,13 @@ const Item: React.FC = () => {
     console.log(count);
   };
   const addTime2 = (index: number, minute: number) => {
-    const targetPlan: Scr | undefined = plan.find((elem) => plan[index] === elem);
+    const targetPlan: Mat | undefined = Plan.find((elem: Mat) => Plan[index] === elem);
     if (targetPlan) {
       targetPlan.time2 = targetPlan.time2 + minute;
       setTime2(targetPlan.time2);
       // 奇数か偶数で処理を変える
       if (index % 2 === 0) {
-        const nextPlan: Scr | undefined = plan.find((elem) => plan[index + 1] === elem);
+        const nextPlan: Mat | undefined = Plan.find((elem: Mat) => Plan[index + 1] === elem);
         if (nextPlan) {
           targetPlan.count =
             targetPlan.time1 + targetPlan.time2 - (nextPlan.time1 + nextPlan.time2);
@@ -281,7 +283,7 @@ const Item: React.FC = () => {
           }
         }
       } else {
-        const prevPlan: Scr | undefined = plan.find((elem) => plan[index - 1] === elem);
+        const prevPlan: Mat | undefined = Plan.find((elem: Mat) => Plan[index - 1] === elem);
         if (prevPlan) {
           targetPlan.count =
             targetPlan.time1 + targetPlan.time2 - (prevPlan.time1 + prevPlan.time2);
@@ -316,26 +318,26 @@ const Item: React.FC = () => {
     }
     // ここから繰り返し処理
     for (let i = 0; i < List.length; i++) {
-      const countPlan: Scr = List.find((elem: Scr) => List[i] === elem);
+      const countPlan: Pro = List.find((elem: Pro) => List[i] === elem);
       // 得失点の合計値をtotalに代入
-      const sumCount: Scr[] = plan.filter((plans) => {
+      const sumCount: Mat[] = Plan.filter((plans: Mat) => {
         return plans.users === countPlan.users;
       });
-      const total = sumCount.reduce(function (sum: number, element: Scr) {
+      const total = sumCount.reduce(function (sum: number, element: Mat) {
         return sum + element.count;
       }, 0);
       // 合計をListに反映
-      const update: Pro = List.find((elem: Scr) => elem.users === countPlan.users);
+      const update: Pro = List.find((elem: Pro) => elem.users === countPlan.users);
       update.score = total;
       // 勝ち点の合計値をamountに代入
-      const sumMarks: Scr[] = plan.filter((plans) => {
+      const sumMarks: Mat[] = Plan.filter((plans: Mat) => {
         return plans.users === countPlan.users;
       });
-      const amount = sumMarks.reduce(function (sum: number, element: Scr) {
+      const amount = sumMarks.reduce(function (sum: number, element: Mat) {
         return sum + element.marks;
       }, 0);
       // 合計をListに反映
-      const overwrite: Pro = List.find((elem: Scr) => elem.users === countPlan.users);
+      const overwrite: Pro = List.find((elem: Pro) => elem.users === countPlan.users);
       overwrite.point = amount;
     }
     // ここまで繰り返し
@@ -421,20 +423,10 @@ const Item: React.FC = () => {
                 ></input>
               </div>
             </div>
-            {/* APIのテスト */}
-            <p>{count}</p>
-            <button
-              onClick={() => {
-                counter(count, 5);
-              }}
-            >
-              count
-            </button>
-            {/* APIのテスト */}
           </div>
           <div className='Item'>
             <div className='ItemHead id'>No.</div>
-            {KEYS.map((key, index) => (
+            {KEYS.map((key, index: number) => (
               <Button key={index} button={key} sort={sort} handleSort={handleSort}></Button>
             ))}
           </div>
@@ -448,6 +440,7 @@ const Item: React.FC = () => {
                     <button
                       className='ListButton'
                       onClick={() => dispatch(allActions.matchAction.addMatch(team.users, param))}
+                      onMouseUp={() => handleAddTimes(index)}
                     >
                       <img src={Sita} alt='↓' width='23px' height='16px' />
                     </button>
@@ -478,6 +471,7 @@ const Item: React.FC = () => {
                     <button
                       className='DeleteButton'
                       onClick={() => dispatch(allActions.matchAction.removeMatch(Plan, index))}
+                      onMouseUp={() => handleReduceTimes(item.users)}
                     >
                       Del
                     </button>
@@ -501,20 +495,40 @@ const Item: React.FC = () => {
                   <div className='FlexCount'>
                     {index % 2 !== 0 && (
                       <div className='FlexCount__Button'>
-                        <button className='AddCount top' onClick={() => addTime1(index, 5)}>
+                        <button
+                          className='AddCount top'
+                          onClick={() =>
+                            handle1setPoint(index, window.myAPI.counter(index, item.time1, 5))
+                          }
+                        >
                           +
                         </button>
-                        <button className='SubCount top' onClick={() => addTime1(index, -1)}>
+                        <button
+                          className='SubCount top'
+                          onClick={() =>
+                            handle1setPoint(index, window.myAPI.counter(index, item.time1, -1))
+                          }
+                        >
                           -
                         </button>
                       </div>
                     )}
                     {index % 2 !== 0 && (
                       <div className='FlexCount__Button'>
-                        <button className='AddCount bottom' onClick={() => addTime2(index, 5)}>
+                        <button
+                          className='AddCount bottom'
+                          onClick={() =>
+                            handle2setPoint(index, window.myAPI.counter(index, item.time2, 5))
+                          }
+                        >
                           <div className='operator'>+</div>
                         </button>
-                        <button className='SubCount bottom' onClick={() => addTime2(index, -1)}>
+                        <button
+                          className='SubCount bottom'
+                          onClick={() =>
+                            handle2setPoint(index, window.myAPI.counter(index, item.time2, -1))
+                          }
+                        >
                           <div className='operator'>-</div>
                         </button>
                       </div>
@@ -528,20 +542,40 @@ const Item: React.FC = () => {
                   <div className='FlexCount'>
                     {index % 2 === 0 && (
                       <div className='FlexCount__Button'>
-                        <button className='SubCount top' onClick={() => addTime1(index, -1)}>
+                        <button
+                          className='SubCount top'
+                          onClick={() =>
+                            handle1setPoint(index, window.myAPI.counter(index, item.time1, -1))
+                          }
+                        >
                           -
                         </button>
-                        <button className='AddCount top' onClick={() => addTime1(index, 5)}>
+                        <button
+                          className='AddCount top'
+                          onClick={() =>
+                            handle1setPoint(index, window.myAPI.counter(index, item.time1, 5))
+                          }
+                        >
                           +
                         </button>
                       </div>
                     )}
                     {index % 2 === 0 && (
                       <div className='FlexCount__Button'>
-                        <button className='SubCount bottom' onClick={() => addTime2(index, -1)}>
+                        <button
+                          className='SubCount bottom'
+                          onClick={() =>
+                            handle2setPoint(index, window.myAPI.counter(index, item.time2, -1))
+                          }
+                        >
                           -
                         </button>
-                        <button className='AddCount bottom' onClick={() => addTime2(index, 5)}>
+                        <button
+                          className='AddCount bottom'
+                          onClick={() =>
+                            handle2setPoint(index, window.myAPI.counter(index, item.time2, 5))
+                          }
+                        >
                           +
                         </button>
                       </div>
@@ -564,6 +598,7 @@ const Item: React.FC = () => {
                     <button
                       className='DeleteButton'
                       onClick={() => dispatch(allActions.matchAction.removeMatch(Plan, index))}
+                      onMouseUp={() => handleReduceTimes(item.users)}
                     >
                       Del
                     </button>

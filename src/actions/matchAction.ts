@@ -5,7 +5,7 @@ const addMatch = (team: string, param: string): Obj => {
     param: param,
   };
 };
-const removeMatch = (array: Scr[], index: number): Obn => {
+const removeMatch = (array: Mat[], index: number): Obn => {
   return {
     type: 'REMOVE_Match',
     payload: array,
