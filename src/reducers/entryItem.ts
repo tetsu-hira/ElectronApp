@@ -2,15 +2,15 @@ const initialState = {
   itemList: [],
 };
 
-const addItem = (array: any, item: any) => {
+const addItem = (array: any, item: string) => {
   return Array.from(new Set([...array, item]));
 }; //重複データが入らないようにするための対応
 
-const removeItem = (array: any, item: any) => {
-  return array.filter((v: any, i: any) => v !== item);
+const removeItem = (array: any, item: string) => {
+  return array.filter((v: string, i: string) => v !== item);
 };
 
-const entryItem = (state: any = initialState, action: Act): any => {
+const entryItem = (state = initialState, action: Act) => {
   switch (action.type) {
     case 'ADD_ITEM':
       return {

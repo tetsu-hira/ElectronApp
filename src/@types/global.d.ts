@@ -19,6 +19,9 @@ export declare global {
     teamList: {
       //
     };
+    itemList: {
+      //
+    };
   }
   interface Mat {
     users: string;
