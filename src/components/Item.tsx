@@ -97,7 +97,6 @@ const Item: React.FC = () => {
     }
   }, [sort]);
   // console.log(sort);
-
   const handleSort = (key: number) => {
     if (sort) {
       if (sort.key === key) {
@@ -112,21 +111,270 @@ const Item: React.FC = () => {
   };
 
   const handle1setPoint = (index: number, point: number) => {
-    setTime1(point);
+    setTime1(point); //即時反映に必要なので消さない事
     console.log(Plan[index]);
     Plan[index].time1 = point;
+    console.log(time1); //即時反映に必要なので消さない事
+    if (index % 2 === 0) {
+      if (Plan[index + 1]) {
+        Plan[index].score =
+          Plan[index].time1 + Plan[index].time2 - (Plan[index + 1].time1 + Plan[index + 1].time2);
+        Plan[index + 1].score =
+          Plan[index + 1].time1 + Plan[index + 1].time2 - (Plan[index].time1 + Plan[index].time2);
+        setCount(Plan[index].score);
+        if (
+          Plan[index].time1 > Plan[index + 1].time1 &&
+          Plan[index].time2 > Plan[index + 1].time2
+        ) {
+          console.log('勝ち勝ち');
+          Plan[index].point = Number(win);
+          Plan[index + 1].point = Number(lose);
+        } else if (
+          Plan[index].time1 < Plan[index + 1].time1 &&
+          Plan[index].time2 < Plan[index + 1].time2
+        ) {
+          console.log('負け負け');
+          Plan[index].point = Number(lose);
+          Plan[index + 1].point = Number(win);
+        } else if (
+          (Plan[index].time1 < Plan[index + 1].time1 &&
+            Plan[index].time2 > Plan[index + 1].time2) ||
+          (Plan[index].time1 > Plan[index + 1].time1 && Plan[index].time2 < Plan[index + 1].time2)
+        ) {
+          if (
+            Plan[index].time1 + Plan[index].time2 >
+            Plan[index + 1].time1 + Plan[index + 1].time2
+          ) {
+            console.log('分け勝ち');
+            Plan[index].point = Number(drawWin);
+            Plan[index + 1].point = Number(drawLose);
+          } else if (
+            Plan[index].time1 + Plan[index].time2 <
+            Plan[index + 1].time1 + Plan[index + 1].time2
+          ) {
+            console.log('分け負け');
+            Plan[index].point = Number(drawLose);
+            Plan[index + 1].point = Number(drawWin);
+          } else {
+            console.log('分け分け');
+            Plan[index].point = Number(drawDraw);
+            Plan[index + 1].point = Number(drawDraw);
+          }
+        } else {
+          console.log('どちらでもなし');
+          Plan[index].point = Number(lose);
+          Plan[index + 1].point = Number(lose);
+        }
+      } else {
+        alert('対戦相手が入力されていません');
+      }
+    } else {
+      if (Plan[index - 1]) {
+        Plan[index].score =
+          Plan[index].time1 + Plan[index].time2 - (Plan[index - 1].time1 + Plan[index - 1].time2);
+        Plan[index - 1].score =
+          Plan[index - 1].time1 + Plan[index - 1].time2 - (Plan[index].time1 + Plan[index].time2);
+        setCount(Plan[index].score);
+        if (
+          Plan[index].time1 > Plan[index - 1].time1 &&
+          Plan[index].time2 > Plan[index - 1].time2
+        ) {
+          Plan[index].point = Number(win);
+          Plan[index - 1].point = Number(lose);
+        } else if (
+          Plan[index].time1 < Plan[index - 1].time1 &&
+          Plan[index].time2 < Plan[index - 1].time2
+        ) {
+          Plan[index].point = Number(lose);
+          Plan[index - 1].point = Number(win);
+        } else if (
+          (Plan[index].time1 < Plan[index - 1].time1 &&
+            Plan[index].time2 > Plan[index - 1].time2) ||
+          (Plan[index].time1 > Plan[index - 1].time1 && Plan[index].time2 < Plan[index - 1].time2)
+        ) {
+          if (
+            Plan[index].time1 + Plan[index].time2 >
+            Plan[index - 1].time1 + Plan[index - 1].time2
+          ) {
+            Plan[index].point = Number(drawWin);
+            Plan[index - 1].point = Number(drawLose);
+          } else if (
+            Plan[index].time1 + Plan[index].time2 <
+            Plan[index - 1].time1 + Plan[index - 1].time2
+          ) {
+            Plan[index].point = Number(drawLose);
+            Plan[index - 1].point = Number(drawWin);
+          } else {
+            Plan[index].point = Number(drawDraw);
+            Plan[index - 1].point = Number(drawDraw);
+          }
+        } else {
+          Plan[index].point = Number(lose);
+          Plan[index - 1].point = Number(lose);
+        }
+      } else {
+        alert('対戦相手が入力されていません');
+      }
+    }
+    // ここから繰り返し処理
+    for (let i = 0; i < List.length; i++) {
+      // const countPlan: Pro | undefined = List.find((elem: Pro) => List[i] === elem);
+      // console.log(countPlan);
+      // 得失点の合計値をtotalに代入
+      const targetPlan: Mat[] = Plan.filter((plans: Mat) => {
+        return plans.users === List[i].users;
+      });
+      console.log(targetPlan);
+      // Planの中の合計値を計算してListに反映
+      List[i].score = targetPlan.reduce((sumScore: number, plans: Mat) => {
+        console.log(plans);
+        return sumScore + Number(plans.score);
+      }, 0);
+      console.log(i + 1 + 'のscoreは' + List[i].score);
+      // 勝ち点の合計値をamountに代入
+      List[i].point = targetPlan.reduce((sumPoint: number, plans: Mat) => {
+        return sumPoint + Number(plans.point);
+      }, 0);
+      console.log(i + 1 + 'のpointは' + List[i].point);
+    }
+    // ここまで繰り返し
+    // コンソールでエラーを回避
+    console.log('ここからエラー回避');
     console.log(time1);
+    console.log(count);
   };
   const handle2setPoint = (index: number, point: number) => {
-    setTime2(point);
+    setTime2(point); //即時反映に必要なので消さない事
     console.log(Plan[index]);
     Plan[index].time2 = point;
+    console.log(time2); //即時反映に必要なので消さない事
+    if (index % 2 === 0) {
+      if (Plan[index + 1]) {
+        Plan[index].score =
+          Plan[index].time1 + Plan[index].time2 - (Plan[index + 1].time1 + Plan[index + 1].time2);
+        Plan[index + 1].score =
+          Plan[index + 1].time1 + Plan[index + 1].time2 - (Plan[index].time1 + Plan[index].time2);
+        setCount(Plan[index].score);
+        if (
+          Plan[index].time1 > Plan[index + 1].time1 &&
+          Plan[index].time2 > Plan[index + 1].time2
+        ) {
+          console.log('勝ち勝ち');
+          Plan[index].point = Number(win);
+          Plan[index + 1].point = Number(lose);
+        } else if (
+          Plan[index].time1 < Plan[index + 1].time1 &&
+          Plan[index].time2 < Plan[index + 1].time2
+        ) {
+          console.log('負け負け');
+          Plan[index].point = Number(lose);
+          Plan[index + 1].point = Number(win);
+        } else if (
+          (Plan[index].time1 < Plan[index + 1].time1 &&
+            Plan[index].time2 > Plan[index + 1].time2) ||
+          (Plan[index].time1 > Plan[index + 1].time1 && Plan[index].time2 < Plan[index + 1].time2)
+        ) {
+          if (
+            Plan[index].time1 + Plan[index].time2 >
+            Plan[index + 1].time1 + Plan[index + 1].time2
+          ) {
+            console.log('分け勝ち');
+            Plan[index].point = Number(drawWin);
+            Plan[index + 1].point = Number(drawLose);
+          } else if (
+            Plan[index].time1 + Plan[index].time2 <
+            Plan[index + 1].time1 + Plan[index + 1].time2
+          ) {
+            console.log('分け負け');
+            Plan[index].point = Number(drawLose);
+            Plan[index + 1].point = Number(drawWin);
+          } else {
+            console.log('分け分け');
+            Plan[index].point = Number(drawDraw);
+            Plan[index + 1].point = Number(drawDraw);
+          }
+        } else {
+          console.log('どちらでもなし');
+          Plan[index].point = Number(lose);
+          Plan[index + 1].point = Number(lose);
+        }
+      } else {
+        alert('対戦相手が入力されていません');
+      }
+    } else {
+      if (Plan[index - 1]) {
+        Plan[index].score =
+          Plan[index].time1 + Plan[index].time2 - (Plan[index - 1].time1 + Plan[index - 1].time2);
+        Plan[index - 1].score =
+          Plan[index - 1].time1 + Plan[index - 1].time2 - (Plan[index].time1 + Plan[index].time2);
+        setCount(Plan[index].score);
+        if (
+          Plan[index].time1 > Plan[index - 1].time1 &&
+          Plan[index].time2 > Plan[index - 1].time2
+        ) {
+          Plan[index].point = Number(win);
+          Plan[index - 1].point = Number(lose);
+        } else if (
+          Plan[index].time1 < Plan[index - 1].time1 &&
+          Plan[index].time2 < Plan[index - 1].time2
+        ) {
+          Plan[index].point = Number(lose);
+          Plan[index - 1].point = Number(win);
+        } else if (
+          (Plan[index].time1 < Plan[index - 1].time1 &&
+            Plan[index].time2 > Plan[index - 1].time2) ||
+          (Plan[index].time1 > Plan[index - 1].time1 && Plan[index].time2 < Plan[index - 1].time2)
+        ) {
+          if (
+            Plan[index].time1 + Plan[index].time2 >
+            Plan[index - 1].time1 + Plan[index - 1].time2
+          ) {
+            Plan[index].point = Number(drawWin);
+            Plan[index - 1].point = Number(drawLose);
+          } else if (
+            Plan[index].time1 + Plan[index].time2 <
+            Plan[index - 1].time1 + Plan[index - 1].time2
+          ) {
+            Plan[index].point = Number(drawLose);
+            Plan[index - 1].point = Number(drawWin);
+          } else {
+            Plan[index].point = Number(drawDraw);
+            Plan[index - 1].point = Number(drawDraw);
+          }
+        } else {
+          Plan[index].point = Number(lose);
+          Plan[index - 1].point = Number(lose);
+        }
+      } else {
+        alert('対戦相手が入力されていません');
+      }
+    }
+    // ここから繰り返し処理
+    for (let i = 0; i < List.length; i++) {
+      // const countPlan: Pro | undefined = List.find((elem: Pro) => List[i] === elem);
+      // console.log(countPlan);
+      // 得失点の合計値をtotalに代入
+      const targetPlan: Mat[] = Plan.filter((plans: Mat) => {
+        return plans.users === List[i].users;
+      });
+      console.log(targetPlan);
+      // Planの中の合計値を計算してListに反映
+      List[i].score = targetPlan.reduce((sumScore: number, plans: Mat) => {
+        console.log(plans);
+        return sumScore + Number(plans.score);
+      }, 0);
+      console.log(i + 1 + 'のscoreは' + List[i].score);
+      // 勝ち点の合計値をamountに代入
+      List[i].point = targetPlan.reduce((sumPoint: number, plans: Mat) => {
+        return sumPoint + Number(plans.point);
+      }, 0);
+      console.log(i + 1 + 'のpointは' + List[i].point);
+    }
+    // ここまで繰り返し
+    // コンソールでエラーを回避
+    console.log('ここからエラー回避');
     console.log(time2);
-  };
-
-  const consoless = (times: number) => {
-    setCount(times);
-    console.log(times);
+    console.log(count);
   };
 
   const addTime1 = (index: number, minute: number) => {
@@ -138,65 +386,65 @@ const Item: React.FC = () => {
       if (index % 2 === 0) {
         const nextPlan: Mat | undefined = Plan.find((elem: Mat) => Plan[index + 1] === elem);
         if (nextPlan) {
-          targetPlan.count =
+          targetPlan.score =
             targetPlan.time1 + targetPlan.time2 - (nextPlan.time1 + nextPlan.time2);
-          nextPlan.count = nextPlan.time1 + nextPlan.time2 - (targetPlan.time1 + targetPlan.time2);
-          setCount(targetPlan.count);
+          nextPlan.score = nextPlan.time1 + nextPlan.time2 - (targetPlan.time1 + targetPlan.time2);
+          setCount(targetPlan.score);
           if (targetPlan.time1 > nextPlan.time1 && targetPlan.time2 > nextPlan.time2) {
-            targetPlan.marks = Number(win);
-            nextPlan.marks = Number(lose);
+            targetPlan.point = Number(win);
+            nextPlan.point = Number(lose);
           } else if (targetPlan.time1 < nextPlan.time1 && targetPlan.time2 < nextPlan.time2) {
-            targetPlan.marks = Number(lose);
-            nextPlan.marks = Number(win);
+            targetPlan.point = Number(lose);
+            nextPlan.point = Number(win);
           } else if (
             (targetPlan.time1 < nextPlan.time1 && targetPlan.time2 > nextPlan.time2) ||
             (targetPlan.time1 > nextPlan.time1 && targetPlan.time2 < nextPlan.time2)
           ) {
             if (targetPlan.time1 + targetPlan.time2 > nextPlan.time1 + nextPlan.time2) {
-              targetPlan.marks = Number(drawWin);
-              nextPlan.marks = Number(drawLose);
+              targetPlan.point = Number(drawWin);
+              nextPlan.point = Number(drawLose);
             } else if (targetPlan.time1 + targetPlan.time2 < nextPlan.time1 + nextPlan.time2) {
-              targetPlan.marks = Number(drawLose);
-              nextPlan.marks = Number(drawWin);
+              targetPlan.point = Number(drawLose);
+              nextPlan.point = Number(drawWin);
             } else {
-              targetPlan.marks = Number(drawDraw);
-              nextPlan.marks = Number(drawDraw);
+              targetPlan.point = Number(drawDraw);
+              nextPlan.point = Number(drawDraw);
             }
           } else {
-            targetPlan.marks = Number(lose);
-            nextPlan.marks = Number(lose);
+            targetPlan.point = Number(lose);
+            nextPlan.point = Number(lose);
           }
         }
       } else {
         const prevPlan: Mat | undefined = Plan.find((elem: Mat) => Plan[index - 1] === elem);
         if (prevPlan) {
-          targetPlan.count =
+          targetPlan.score =
             targetPlan.time1 + targetPlan.time2 - (prevPlan.time1 + prevPlan.time2);
-          prevPlan.count = prevPlan.time1 + prevPlan.time2 - (targetPlan.time1 + targetPlan.time2);
-          setCount(targetPlan.count);
+          prevPlan.score = prevPlan.time1 + prevPlan.time2 - (targetPlan.time1 + targetPlan.time2);
+          setCount(targetPlan.score);
           if (targetPlan.time1 > prevPlan.time1 && targetPlan.time2 > prevPlan.time2) {
-            targetPlan.marks = Number(win);
-            prevPlan.marks = Number(lose);
+            targetPlan.point = Number(win);
+            prevPlan.point = Number(lose);
           } else if (targetPlan.time1 < prevPlan.time1 && targetPlan.time2 < prevPlan.time2) {
-            targetPlan.marks = Number(lose);
-            prevPlan.marks = Number(win);
+            targetPlan.point = Number(lose);
+            prevPlan.point = Number(win);
           } else if (
             (targetPlan.time1 < prevPlan.time1 && targetPlan.time2 > prevPlan.time2) ||
             (targetPlan.time1 > prevPlan.time1 && targetPlan.time2 < prevPlan.time2)
           ) {
             if (targetPlan.time1 + targetPlan.time2 > prevPlan.time1 + prevPlan.time2) {
-              targetPlan.marks = Number(drawWin);
-              prevPlan.marks = Number(drawLose);
+              targetPlan.point = Number(drawWin);
+              prevPlan.point = Number(drawLose);
             } else if (targetPlan.time1 + targetPlan.time2 < prevPlan.time1 + prevPlan.time2) {
-              targetPlan.marks = Number(drawLose);
-              prevPlan.marks = Number(drawWin);
+              targetPlan.point = Number(drawLose);
+              prevPlan.point = Number(drawWin);
             } else {
-              targetPlan.marks = Number(drawDraw);
-              prevPlan.marks = Number(drawDraw);
+              targetPlan.point = Number(drawDraw);
+              prevPlan.point = Number(drawDraw);
             }
           } else {
-            targetPlan.marks = Number(lose);
-            prevPlan.marks = Number(lose);
+            targetPlan.point = Number(lose);
+            prevPlan.point = Number(lose);
           }
         }
       }
@@ -221,13 +469,13 @@ const Item: React.FC = () => {
       });
       update.score = total;
       // 勝ち点の合計値をamountに代入
-      const sumMarks: Mat[] = Plan.filter((plans: Mat) => {
+      const sumpoint: Mat[] = Plan.filter((plans: Mat) => {
         if (countPlan) {
           return plans.users === countPlan.users;
         }
       });
-      const amount = sumMarks.reduce(function (sum: number, element: Mat) {
-        return sum + element.marks;
+      const amount = sumpoint.reduce(function (sum: number, element: Mat) {
+        return sum + element.point;
       }, 0);
       // 合計をListに反映
       const overwrite: Pro = List.find((elem: Pro) => {
@@ -235,7 +483,6 @@ const Item: React.FC = () => {
           elem.users === countPlan.users;
         }
       });
-
       overwrite.point = amount;
     }
     // ここまで繰り返し
@@ -253,65 +500,65 @@ const Item: React.FC = () => {
       if (index % 2 === 0) {
         const nextPlan: Mat | undefined = Plan.find((elem: Mat) => Plan[index + 1] === elem);
         if (nextPlan) {
-          targetPlan.count =
+          targetPlan.score =
             targetPlan.time1 + targetPlan.time2 - (nextPlan.time1 + nextPlan.time2);
-          nextPlan.count = nextPlan.time1 + nextPlan.time2 - (targetPlan.time1 + targetPlan.time2);
-          setCount(targetPlan.count);
+          nextPlan.score = nextPlan.time1 + nextPlan.time2 - (targetPlan.time1 + targetPlan.time2);
+          setCount(targetPlan.score);
           if (targetPlan.time1 > nextPlan.time1 && targetPlan.time2 > nextPlan.time2) {
-            targetPlan.marks = Number(win);
-            nextPlan.marks = Number(lose);
+            targetPlan.point = Number(win);
+            nextPlan.point = Number(lose);
           } else if (targetPlan.time1 < nextPlan.time1 && targetPlan.time2 < nextPlan.time2) {
-            targetPlan.marks = Number(lose);
-            nextPlan.marks = Number(win);
+            targetPlan.point = Number(lose);
+            nextPlan.point = Number(win);
           } else if (
             (targetPlan.time1 < nextPlan.time1 && targetPlan.time2 > nextPlan.time2) ||
             (targetPlan.time1 > nextPlan.time1 && targetPlan.time2 < nextPlan.time2)
           ) {
             if (targetPlan.time1 + targetPlan.time2 > nextPlan.time1 + nextPlan.time2) {
-              targetPlan.marks = Number(drawWin);
-              nextPlan.marks = Number(drawLose);
+              targetPlan.point = Number(drawWin);
+              nextPlan.point = Number(drawLose);
             } else if (targetPlan.time1 + targetPlan.time2 < nextPlan.time1 + nextPlan.time2) {
-              targetPlan.marks = Number(drawLose);
-              nextPlan.marks = Number(drawWin);
+              targetPlan.point = Number(drawLose);
+              nextPlan.point = Number(drawWin);
             } else {
-              targetPlan.marks = Number(drawDraw);
-              nextPlan.marks = Number(drawDraw);
+              targetPlan.point = Number(drawDraw);
+              nextPlan.point = Number(drawDraw);
             }
           } else {
-            targetPlan.marks = Number(lose);
-            nextPlan.marks = Number(lose);
+            targetPlan.point = Number(lose);
+            nextPlan.point = Number(lose);
           }
         }
       } else {
         const prevPlan: Mat | undefined = Plan.find((elem: Mat) => Plan[index - 1] === elem);
         if (prevPlan) {
-          targetPlan.count =
+          targetPlan.score =
             targetPlan.time1 + targetPlan.time2 - (prevPlan.time1 + prevPlan.time2);
-          prevPlan.count = prevPlan.time1 + prevPlan.time2 - (targetPlan.time1 + targetPlan.time2);
-          setCount(targetPlan.count);
+          prevPlan.score = prevPlan.time1 + prevPlan.time2 - (targetPlan.time1 + targetPlan.time2);
+          setCount(targetPlan.score);
           if (targetPlan.time1 > prevPlan.time1 && targetPlan.time2 > prevPlan.time2) {
-            targetPlan.marks = Number(win);
-            prevPlan.marks = Number(lose);
+            targetPlan.point = Number(win);
+            prevPlan.point = Number(lose);
           } else if (targetPlan.time1 < prevPlan.time1 && targetPlan.time2 < prevPlan.time2) {
-            targetPlan.marks = Number(lose);
-            prevPlan.marks = Number(win);
+            targetPlan.point = Number(lose);
+            prevPlan.point = Number(win);
           } else if (
             (targetPlan.time1 < prevPlan.time1 && targetPlan.time2 > prevPlan.time2) ||
             (targetPlan.time1 > prevPlan.time1 && targetPlan.time2 < prevPlan.time2)
           ) {
             if (targetPlan.time1 + targetPlan.time2 > prevPlan.time1 + prevPlan.time2) {
-              targetPlan.marks = Number(drawWin);
-              prevPlan.marks = Number(drawLose);
+              targetPlan.point = Number(drawWin);
+              prevPlan.point = Number(drawLose);
             } else if (targetPlan.time1 + targetPlan.time2 < prevPlan.time1 + prevPlan.time2) {
-              targetPlan.marks = Number(drawLose);
-              prevPlan.marks = Number(drawWin);
+              targetPlan.point = Number(drawLose);
+              prevPlan.point = Number(drawWin);
             } else {
-              targetPlan.marks = Number(drawDraw);
-              prevPlan.marks = Number(drawDraw);
+              targetPlan.point = Number(drawDraw);
+              prevPlan.point = Number(drawDraw);
             }
           } else {
-            targetPlan.marks = Number(lose);
-            prevPlan.marks = Number(lose);
+            targetPlan.point = Number(lose);
+            prevPlan.point = Number(lose);
           }
         }
       }
@@ -324,17 +571,17 @@ const Item: React.FC = () => {
         return plans.users === countPlan.users;
       });
       const total = sumCount.reduce(function (sum: number, element: Mat) {
-        return sum + element.count;
+        return sum + element.score;
       }, 0);
       // 合計をListに反映
       const update: Pro = List.find((elem: Pro) => elem.users === countPlan.users);
       update.score = total;
       // 勝ち点の合計値をamountに代入
-      const sumMarks: Mat[] = Plan.filter((plans: Mat) => {
+      const sumpoint: Mat[] = Plan.filter((plans: Mat) => {
         return plans.users === countPlan.users;
       });
-      const amount = sumMarks.reduce(function (sum: number, element: Mat) {
-        return sum + element.marks;
+      const amount = sumpoint.reduce(function (sum: number, element: Mat) {
+        return sum + element.point;
       }, 0);
       // 合計をListに反映
       const overwrite: Pro = List.find((elem: Pro) => elem.users === countPlan.users);

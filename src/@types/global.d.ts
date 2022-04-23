@@ -24,8 +24,8 @@ export declare global {
     users: string;
     time1: number;
     time2: number;
-    count: number;
-    marks: number;
+    point: number;
+    score: number;
     param: string;
   }
   interface Pro {
