@@ -23,8 +23,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "electron .",
+    "build": "electron-packager .",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "next lint --dir src electron",
@@ -61,6 +61,7 @@
     "cross-env": "^7.0.3",
     "electron": "^18.0.4",
     "electron-builder": "^23.0.3",
+    "electron-packager": "^15.5.1",
     "electron-reload": "^2.0.0-alpha.1",
     "electron-search-devtools": "^1.7.5",
     "eslint": "^8.13.0",
